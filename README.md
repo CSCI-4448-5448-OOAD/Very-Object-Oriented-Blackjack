@@ -2,10 +2,10 @@
 # Final Project(Project 5,6,7)
 
 Team Members:
-1. Name
-2. Name
+1. Carmen Michael Yon III
+2. Damon Leaf
 
-Java Version:
+Java Version: 
 
 Additional Comments:
 

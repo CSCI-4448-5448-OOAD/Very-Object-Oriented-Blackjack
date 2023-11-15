@@ -18,7 +18,9 @@ public class GameDriver extends Application {
 //        stage.setScene(scene);
 //        stage.show();
         //Setup 2
-        Parent root = FXMLLoader.load(getClass().getResource("StartingPage.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("StartingPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("NewGamePage.fxml"));
+
         Image icon = new Image("https://static.thenounproject.com/png/15599-200.png");
         stage.getIcons().add(icon);
         stage.setTitle("BlackjackGUI");

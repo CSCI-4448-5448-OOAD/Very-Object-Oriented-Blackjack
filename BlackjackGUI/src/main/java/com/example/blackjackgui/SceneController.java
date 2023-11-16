@@ -26,8 +26,8 @@ public class SceneController {
         stage.setScene(scene);
         stage.show();
     }
-    public void switchToStartingPage(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("StartingPage.fxml")));
+    public void switchToLoadGamePage(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("LoadGamePage.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

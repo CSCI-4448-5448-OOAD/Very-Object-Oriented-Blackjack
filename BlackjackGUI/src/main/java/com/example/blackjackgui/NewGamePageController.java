@@ -22,6 +22,7 @@ public class NewGamePageController implements Initializable{
     private Scene scene;
     private Parent root;
     public void switchToGameTablePage(ActionEvent event) throws IOException {
+        //TODO will need to send the data from our fields to the next scene
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("GameTablePage.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

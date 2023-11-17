@@ -27,8 +27,18 @@ public class LoadGamePageController implements Initializable {
         stage.show();
     }
 
+    public void switchToGameTablePage(ActionEvent event) throws IOException {
+        //TODO will need to send the data from our fields to the next scene
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("GameTablePage.fxml")));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     @FXML
     private ChoiceBox<String> saveSelectBox;
+    //TODO Load our save files and populate the check box
     private String[] SaveFiles = {"Billy", "Damon", "Carmen", "Derrik", "Sean"};
     @Override //Populates the Choice box for the # of decks the player wants
     public void initialize(URL url, ResourceBundle resourceBundle) {

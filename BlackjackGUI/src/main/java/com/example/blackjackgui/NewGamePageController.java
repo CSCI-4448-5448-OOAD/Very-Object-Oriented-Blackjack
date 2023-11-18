@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -21,9 +22,16 @@ public class NewGamePageController implements Initializable{
     private Stage stage;
     private Scene scene;
     private Parent root;
+    @FXML
+    TextField startingBalanceTextField;
     public void switchToGameTablePage(ActionEvent event) throws IOException {
         //TODO will need to send the data from our fields to the next scene
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("GameTablePage.fxml")));
+        String startingBalance = startingBalanceTextField.getText();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("GameTablePage.fxml"));
+        root = loader.load();
+        GameTablePageController gameTableCon = loader.getController();
+        gameTableCon.displayBalance(startingBalance);
+        //root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("GameTablePage.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

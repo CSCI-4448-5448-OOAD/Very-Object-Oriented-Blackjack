@@ -18,7 +18,7 @@
             <Font size="10.0" />
          </font>
       </Label>
-      <TextField fx:id="startAmountTxtField" layoutX="39.0" layoutY="157.0" prefHeight="25.0" prefWidth="66.0" />
+      <TextField fx:id="startingBalanceTextField" layoutX="39.0" layoutY="157.0" prefHeight="25.0" prefWidth="66.0" />
       <Button layoutX="502.0" layoutY="360.0" mnemonicParsing="false" onAction="#switchToStartingPage" text="Exit to Menu" />
       <Button layoutX="39.0" layoutY="360.0" mnemonicParsing="false" onAction="#switchToGameTablePage" text="Start Game" />
    </children>

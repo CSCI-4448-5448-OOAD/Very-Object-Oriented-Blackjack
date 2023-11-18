@@ -1,10 +1,12 @@
 package com.example.blackjackgui;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,5 +22,12 @@ public class GameTablePageController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    Label currentBalanceLabel;
+    public void displayBalance(String balance){
+        //TODO limit to just ints
+        currentBalanceLabel.setText("Current Balance: "+ balance);
     }
 }

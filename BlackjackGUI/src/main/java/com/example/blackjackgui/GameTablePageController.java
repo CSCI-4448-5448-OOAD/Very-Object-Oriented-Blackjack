@@ -30,4 +30,10 @@ public class GameTablePageController {
         //TODO limit to just ints
         currentBalanceLabel.setText("Current Balance: "+ balance);
     }
+
+    @FXML
+    Label playerNameTextField;
+    public void displayName(String gamblerName){
+        playerNameTextField.setText("Player: " + gamblerName);
+    }
 }

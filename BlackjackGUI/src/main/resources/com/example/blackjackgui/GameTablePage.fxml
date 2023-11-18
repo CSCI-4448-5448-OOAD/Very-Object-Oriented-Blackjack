@@ -30,5 +30,6 @@
             <Label fx:id="currentBalanceLabel" layoutX="8.0" layoutY="9.0" prefHeight="17.0" prefWidth="207.0" text="Current Balance:" />
          </children>
       </AnchorPane>
+      <Label fx:id="playerNameTextField" layoutX="384.0" layoutY="373.0" prefHeight="17.0" prefWidth="215.0" text="Welcome:" />
    </children>
 </AnchorPane>

@@ -24,13 +24,21 @@ public class NewGamePageController implements Initializable{
     private Parent root;
     @FXML
     TextField startingBalanceTextField;
+    @FXML
+    TextField playerNameTextField;
     public void switchToGameTablePage(ActionEvent event) throws IOException {
         //TODO will need to send the data from our fields to the next scene
-        String startingBalance = startingBalanceTextField.getText();
+        //Collect all player/game info
+        String startingBalance = startingBalanceTextField.getText(); //Get starting Balance
+        String gamblerName = playerNameTextField.getText();
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameTablePage.fxml"));
         root = loader.load();
+        //Instance of game page controller
         GameTablePageController gameTableCon = loader.getController();
+        //Call gamePageController functions to populate the next page.
         gameTableCon.displayBalance(startingBalance);
+        gameTableCon.displayName(gamblerName);
         //root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("GameTablePage.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

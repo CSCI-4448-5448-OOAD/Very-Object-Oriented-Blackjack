@@ -23,15 +23,40 @@ public class NewGamePageController implements Initializable{
     private Scene scene;
     private Parent root;
     @FXML
-    TextField startingBalanceTextField;
+    TextField currentBalanceLabel; //The starting balance of the player
     @FXML
     TextField playerNameTextField;
+    @FXML
+    Label alertLabel;
+
+
     public void switchToGameTablePage(ActionEvent event) throws IOException {
         //TODO will need to send the data from our fields to the next scene
         //Collect all player/game info
-        String startingBalance = startingBalanceTextField.getText(); //Get starting Balance
+        //String startingBalance = currentBalanceLabel.getText(); //Get starting Balance
+        int startingBalance;
         String gamblerName = playerNameTextField.getText();
+        try {
+            startingBalance = Integer.parseInt(currentBalanceLabel.getText());
+            if(startingBalance < 0){ //Verify balance isn't negative
+                alertLabel.setText("ERROR: Negative Balance. Positive integers only!");
+            } else if (gamblerName.isEmpty()) {
+                alertLabel.setText("ERROR: Enter a name please.");
+            } else{
+                LoadGameTable(startingBalance, gamblerName, event);
+            }
+        }
+        catch (NumberFormatException e){
+            alertLabel.setText("ERROR: Starting balance only takes positive integers.");
+        }
+        catch (Exception e) {
+            alertLabel.setText("error");
+        }
 
+    }
+
+    //Helper Function
+    public void LoadGameTable(int startingBalance, String gamblerName, ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameTablePage.fxml"));
         root = loader.load();
         //Instance of game page controller
@@ -45,6 +70,7 @@ public class NewGamePageController implements Initializable{
         stage.setScene(scene);
         stage.show();
     }
+
     public void switchToStartingPage(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("StartingPage.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

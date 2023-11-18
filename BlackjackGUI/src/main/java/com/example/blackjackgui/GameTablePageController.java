@@ -26,9 +26,9 @@ public class GameTablePageController {
 
     @FXML
     Label currentBalanceLabel;
-    public void displayBalance(String balance){
+    public void displayBalance(Integer balance){
         //TODO limit to just ints
-        currentBalanceLabel.setText("Current Balance: "+ balance);
+        currentBalanceLabel.setText(String.valueOf(balance));
     }
 
     @FXML

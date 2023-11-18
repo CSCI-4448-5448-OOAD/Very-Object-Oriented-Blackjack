@@ -27,8 +27,13 @@ public class GameTablePageController {
     @FXML
     Label currentBalanceLabel;
     public void displayBalance(Integer balance){
-        //TODO limit to just ints
         currentBalanceLabel.setText(String.valueOf(balance));
+    }
+
+    @FXML
+    Label minBetLabel;
+    public void displayMinBet(Integer minBet){
+        minBetLabel.setText(String.valueOf(minBet));
     }
 
     @FXML

@@ -31,38 +31,45 @@ public class NewGamePageController implements Initializable{
     @FXML
     TextField minBetTextField;
 
-
+    //TODO add the deck# and NPC# fxml fields and then get the info and check if null
     public void switchToGameTablePage(ActionEvent event) throws IOException {
         //TODO will need to send the data from our fields to the next scene
         //Collect all player/game info
         //String startingBalance = currentBalanceLabel.getText(); //Get starting Balance
         int startingBalance;
         int minBet;
-        String gamblerName = playerNameTextField.getText();
-        try {
-            startingBalance = Integer.parseInt(currentBalanceTextField.getText());
-            minBet = Integer.parseInt(minBetTextField.getText());
-            if(startingBalance < 0 || minBet < 0){ //Verify balance isn't negative
-                alertLabel.setText("ERROR: Negative numbers. Positive integers only!");
-            } else if (minBet > startingBalance) {
-                alertLabel.setText("ERROR: Min bet cannot exceed starting balance.");
+        //Decknumber and NPC number
+        Integer deckNumber = deckNumberChoice.getSelectionModel().getSelectedItem();
+        Integer npcNumber = npcNumberChoice.getSelectionModel().getSelectedItem();
+        if(deckNumber == null || npcNumber == null){ //No Null selections
+            alertLabel.setText("ERROR: Complete your Deck# and NPC# selections.");
+        }else{
+            String gamblerName = playerNameTextField.getText();
+            try { //Error handling for textfields
+                startingBalance = Integer.parseInt(currentBalanceTextField.getText());
+                minBet = Integer.parseInt(minBetTextField.getText());
+                if(startingBalance < 0 || minBet < 0){ //Verify balance isn't negative
+                    alertLabel.setText("ERROR: Negative numbers. Positive integers only!");
+                } else if (minBet > startingBalance) {
+                    alertLabel.setText("ERROR: Min bet cannot exceed starting balance.");
 
-            } else if (gamblerName.isEmpty()) { //Prevent null usernames
-                alertLabel.setText("ERROR: Enter a name please.");
-            } else{
-                LoadGameTable(startingBalance, gamblerName, minBet, event);
+                } else if (gamblerName.isEmpty()) { //Prevent null usernames
+                    alertLabel.setText("ERROR: Enter a name please.");
+                } else{
+                    //LOAD THE GAME TABLE PAGE
+                    LoadGameTable(startingBalance, gamblerName, minBet, event);
+                }
+            }
+            catch (NumberFormatException e){
+                alertLabel.setText("ERROR: Starting balance only takes positive integers.");
+            }
+            catch (Exception e) {//Any other error from the staring balance
+                alertLabel.setText("error");
             }
         }
-        catch (NumberFormatException e){
-            alertLabel.setText("ERROR: Starting balance only takes positive integers.");
-        }
-        catch (Exception e) {//Any other error from the staring balance
-            alertLabel.setText("error");
-        }
-
     }
 
-    //Helper Function
+    //Helper Function for loading GameTablePage
     public void LoadGameTable(int startingBalance, String gamblerName, int minBet, ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameTablePage.fxml"));
         root = loader.load();
@@ -101,6 +108,5 @@ public class NewGamePageController implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
         deckNumberChoice.getItems().addAll(deckOptions);
         npcNumberChoice.getItems().addAll(npcOptions);
-        //TODO MAKE ANOTHER SCENE CONTROLLER FOR SCENE 1. do this so we can link pg 1 and 2
     }
 }

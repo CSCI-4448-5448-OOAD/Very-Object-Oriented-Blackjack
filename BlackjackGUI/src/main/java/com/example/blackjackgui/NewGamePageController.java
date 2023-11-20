@@ -31,7 +31,7 @@ public class NewGamePageController implements Initializable{
     @FXML
     TextField minBetTextField;
 
-    //TODO add the deck# and NPC# fxml fields and then get the info and check if null
+
     public void switchToGameTablePage(ActionEvent event) throws IOException {
         //TODO will need to send the data from our fields to the next scene
         //Collect all player/game info
@@ -57,11 +57,11 @@ public class NewGamePageController implements Initializable{
                     alertLabel.setText("ERROR: Enter a name please.");
                 } else{
                     //LOAD THE GAME TABLE PAGE
-                    LoadGameTable(startingBalance, gamblerName, minBet, event);
+                    LoadGameTable(startingBalance, gamblerName, minBet, deckNumber, npcNumber,event);
                 }
             }
             catch (NumberFormatException e){
-                alertLabel.setText("ERROR: Starting balance only takes positive integers.");
+                alertLabel.setText("ERROR: Fill in the Starting Amount and Min Bet. Positive integers only.");
             }
             catch (Exception e) {//Any other error from the staring balance
                 alertLabel.setText("error");
@@ -70,7 +70,7 @@ public class NewGamePageController implements Initializable{
     }
 
     //Helper Function for loading GameTablePage
-    public void LoadGameTable(int startingBalance, String gamblerName, int minBet, ActionEvent event) throws IOException {
+    public void LoadGameTable(int startingBalance, String gamblerName, int minBet, int deckNumber, int npcNumber, ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameTablePage.fxml"));
         root = loader.load();
         //Instance of game page controller
@@ -79,7 +79,8 @@ public class NewGamePageController implements Initializable{
         gameTableCon.displayBalance(startingBalance);
         gameTableCon.displayMinBet(minBet);
         gameTableCon.displayName(gamblerName);
-
+        gameTableCon.displayDeckNumber(deckNumber);
+        gameTableCon.displayNPCs(npcNumber);
         //root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("GameTablePage.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

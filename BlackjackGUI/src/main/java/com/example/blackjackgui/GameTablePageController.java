@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class GameTablePageController {
@@ -40,5 +42,58 @@ public class GameTablePageController {
     Label playerNameTextField;
     public void displayName(String gamblerName){
         playerNameTextField.setText("Player: " + gamblerName);
+    }
+
+    @FXML
+    Label deckNumberLabel;
+    public void displayDeckNumber(Integer deckNumber){
+        deckNumberLabel.setText(Integer.toString(deckNumber) + "- Deck Shoe");
+    }
+    @FXML
+    Label NPC1Label;
+    @FXML
+    Label NPC2Label;
+    @FXML
+    Label NPC3Label;
+    @FXML
+    Label NPC4Label;
+
+    public void displayNPCs(Integer npcNumber){
+        List<Label> NPCLabelList = new ArrayList<Label>();
+        NPCLabelList.add(NPC1Label);
+        NPCLabelList.add(NPC2Label);
+        NPCLabelList.add(NPC3Label);
+        NPCLabelList.add(NPC4Label);
+        switch(npcNumber) {
+            case 0:
+                // No Game Players
+                break;
+            case 1:
+                NPC1Label.setText("NPC1");
+                NPC2Label.setText(null);
+                NPC3Label.setText(null);
+                NPC4Label.setText(null);
+                break;
+            case 2:
+                NPC1Label.setText("NPC1");
+                NPC2Label.setText("NPC2");
+                NPC3Label.setText(null);
+                NPC4Label.setText(null);
+                break;
+            case 3:
+                NPC1Label.setText("NPC1");
+                NPC2Label.setText("NPC2");
+                NPC3Label.setText("NPC3");
+                NPC4Label.setText(null);
+                break;
+            case 4:
+                NPC1Label.setText("NPC1");
+                NPC2Label.setText("NPC2");
+                NPC3Label.setText("NPC3");
+                NPC4Label.setText("NPC4");
+                break;
+
+        }
+
     }
 }

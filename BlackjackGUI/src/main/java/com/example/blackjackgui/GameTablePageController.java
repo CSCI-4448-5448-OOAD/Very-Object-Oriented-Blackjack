@@ -115,9 +115,14 @@ public class GameTablePageController {
     private AnchorPane p1CardSlot3;
     public int counter = 0;
     public void createCard(ActionEvent event){
-        Label sampleCard = new Label("7S");
+        //♥♦♠♣ Suit resource
+        Label sampleCard = new Label("7♦");
+        //Label sampleCard = new Label("7&spades");
+
         sampleCard.getStylesheets().add(getClass().getResource("CardStyling.css").toExternalForm());
         sampleCard.getStyleClass().add("sampleCard");
+
+
         //playerHandArea.getChildren().add(sampleCard);
         if(counter < 1){
             p1CardSlot1.getChildren().add(sampleCard);

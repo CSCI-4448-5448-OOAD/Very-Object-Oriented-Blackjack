@@ -1,0 +1,22 @@
+/**{*/
+/*    -fx-base: #424242;*/
+/*}*/
+
+.sampleCard{
+    -fx-text-fill: white;
+    -fx-shape: "M100,100 h200 a20,20 0 0 1 20,20 v200 a20,20 0 0 1 -20,20 h-200 a20,20 0 0 1 -20,-20 v-200 a20,20 0 0 1 20,-20 z";
+    -fx-background-color: #039BE5;
+    -fx-pref-width: 39;
+    -fx-pref-height:60;
+    -fx-alignment: "TOP_LEFT";
+    -fx-border-color: black;
+}
+
+.playerHandArea{
+    -fx-background-color: lightgreen;
+}
+.playerCardSlot{
+    -fx-background-color: clear;
+    /*-fx-background-color: white;*/
+
+}

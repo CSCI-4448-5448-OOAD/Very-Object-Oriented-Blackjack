@@ -7,6 +7,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -94,6 +97,35 @@ public class GameTablePageController {
                 break;
 
         }
+
+    }
+
+
+    @FXML
+    private AnchorPane playerHandArea;
+    //@FXML private AnchorPane panelLoadLabel;
+
+    @FXML
+    private AnchorPane dealerHandArea;
+    @FXML
+    private AnchorPane p1CardSlot1;
+    @FXML
+    private AnchorPane p1CardSlot2;
+    @FXML
+    private AnchorPane p1CardSlot3;
+    public int counter = 0;
+    public void createCard(ActionEvent event){
+        Label sampleCard = new Label("7S");
+        sampleCard.getStylesheets().add(getClass().getResource("CardStyling.css").toExternalForm());
+        sampleCard.getStyleClass().add("sampleCard");
+        //playerHandArea.getChildren().add(sampleCard);
+        if(counter < 1){
+            p1CardSlot1.getChildren().add(sampleCard);
+
+        }else{
+            p1CardSlot2.getChildren().add(sampleCard);
+        }
+        counter++;
 
     }
 }

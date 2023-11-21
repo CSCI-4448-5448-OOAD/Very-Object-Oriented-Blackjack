@@ -101,7 +101,7 @@ public class NewGamePageController implements Initializable{
 
     @FXML
     private ChoiceBox<Integer> deckNumberChoice;
-    private Integer[] deckOptions = {1, 2, 3, 4, 5};
+    private Integer[] deckOptions = {1, 2, 3, 4, 5, 6, 7, 8}; //1, 6, 8 are most common
     @FXML
     private ChoiceBox<Integer> npcNumberChoice;
     private Integer[] npcOptions = {0,1, 2, 3, 4}; //Up to 4 possible NPCs at the table

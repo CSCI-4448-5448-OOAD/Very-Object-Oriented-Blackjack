@@ -3,9 +3,9 @@
 /*}*/
 
 .sampleCard{
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     -fx-shape: "M100,100 h200 a20,20 0 0 1 20,20 v200 a20,20 0 0 1 -20,20 h-200 a20,20 0 0 1 -20,-20 v-200 a20,20 0 0 1 20,-20 z";
-    -fx-background-color: #039BE5;
+    -fx-background-color: white;
     -fx-pref-width: 39;
     -fx-pref-height:60;
     -fx-alignment: "TOP_LEFT";
@@ -17,6 +17,7 @@
 }
 .playerCardSlot{
     -fx-background-color: clear;
+    /*-fx-background-color: black;*/
     /*-fx-background-color: white;*/
 
 }

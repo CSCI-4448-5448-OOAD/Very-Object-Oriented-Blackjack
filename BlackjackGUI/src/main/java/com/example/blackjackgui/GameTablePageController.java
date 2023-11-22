@@ -2,6 +2,7 @@ package com.example.blackjackgui;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -222,12 +223,27 @@ public class GameTablePageController {
     public void minBet(ActionEvent event) throws InterruptedException {
         //TODO NOTE: The cards here are just for visuals. Real cards will b held w/in their
         //todo own classes.
-        for(AnchorPane cardSlot : CardSlotList){
-            //♥♦♠♣ Suit resource
-            dealSingleCard(cardSlot);//can change this to take whatever value is generated from the card classes
-            //Thread.sleep(500); //TODO Doesn't delay correctly. Waits and then displays all
-            TimeUnit.SECONDS.sleep(1);
-        }
+//        for(AnchorPane cardSlot : CardSlotList){
+//            //♥♦♠♣ Suit resource
+//            dealSingleCard(cardSlot);//can change this to take whatever value is generated from the card classes
+//        }
+///////////////////////////////
+        new Thread(()->{ //use another thread so long process does not block gui
+            for(AnchorPane cardSlot : CardSlotList)   {
+                //update gui using fx thread
+                Platform.runLater(() -> {
+                    try {
+                        dealSingleCard(cardSlot);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                try {Thread.sleep(1500);} catch (InterruptedException ex) { ex.printStackTrace();}
+            }
+
+        }).start();
+
+
     }
     public void dealSingleCard(AnchorPane cardSlot) throws InterruptedException {
         String[] cardNums = new String[]{"A","2","3","4","5","6","7","8","9","10","J","Q","K"};

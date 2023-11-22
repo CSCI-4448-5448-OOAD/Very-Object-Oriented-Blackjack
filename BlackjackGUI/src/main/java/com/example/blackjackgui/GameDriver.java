@@ -19,6 +19,7 @@ public class GameDriver extends Application {
         stage.setTitle("BlackjackGUI");
         stage.setScene(new Scene(root));
         stage.show();
+        //NOTE Most Game Logic held in GameTableController.java
     }
 
     public static void main(String[] args) {

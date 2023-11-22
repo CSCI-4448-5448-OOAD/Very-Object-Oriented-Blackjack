@@ -11,6 +11,24 @@
     -fx-alignment: "TOP_LEFT";
     -fx-border-color: black;
 }
+.redCard{
+    -fx-text-fill: red;
+    -fx-shape: "M100,100 h200 a20,20 0 0 1 20,20 v200 a20,20 0 0 1 -20,20 h-200 a20,20 0 0 1 -20,-20 v-200 a20,20 0 0 1 20,-20 z";
+    -fx-background-color: white;
+    -fx-pref-width: 39;
+    -fx-pref-height:60;
+    -fx-alignment: "TOP_LEFT";
+    -fx-border-color: black;
+}
+.blackCard{
+    -fx-text-fill: black;
+    -fx-shape: "M100,100 h200 a20,20 0 0 1 20,20 v200 a20,20 0 0 1 -20,20 h-200 a20,20 0 0 1 -20,-20 v-200 a20,20 0 0 1 20,-20 z";
+    -fx-background-color: white;
+    -fx-pref-width: 39;
+    -fx-pref-height:60;
+    -fx-alignment: "TOP_LEFT";
+    -fx-border-color: black;
+}
 
 .playerHandArea{
     -fx-background-color: lightgreen;

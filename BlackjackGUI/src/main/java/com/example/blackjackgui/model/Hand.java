@@ -24,4 +24,8 @@ public class Hand {
     public int getSize(){
         return cards.size();
     }
+
+    public void resetHand(){
+        cards.clear();
+    }
 }

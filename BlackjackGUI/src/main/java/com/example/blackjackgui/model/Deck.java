@@ -3,19 +3,20 @@ import java.util.Collections;
 import java.util.Stack;
 
 public class Deck {
-    private Stack<Card> CardStack;
+    private Stack<Card> cardStack;
+    private Stack<Card> discardStack;
 
     public Deck(int numDecks){
         // initialize stack
-        CardStack = new Stack<Card>();
+        cardStack = new Stack<Card>();
 
         // add 52 cards per deck
         for(int decks = 0; decks < numDecks; decks++) {
-            for (int i = 0; i < 13; i++) {
-                CardStack.push(new Card(i, Suit.CLUB));
-                CardStack.push(new Card(i, Suit.HEART));
-                CardStack.push(new Card(i, Suit.DIAMOND));
-                CardStack.push(new Card(i, Suit.SPADE));
+            for (int i = 1; i <= 13; i++) {
+                cardStack.push(new Card(i, Suit.CLUB));
+                cardStack.push(new Card(i, Suit.HEART));
+                cardStack.push(new Card(i, Suit.DIAMOND));
+                cardStack.push(new Card(i, Suit.SPADE));
             }
         }
 
@@ -24,10 +25,18 @@ public class Deck {
     }
 
     public Card pop(){
-        return CardStack.pop();
+        Card tmp = cardStack.pop();
+        discardStack.push(tmp);
+        return tmp;
     }
 
     public void shuffle(){
-        Collections.shuffle(CardStack);
+        // remove each element from the discard stack and add to card stack
+        while (!discardStack.isEmpty()) {
+            Card item = discardStack.pop();
+            cardStack.push(item);
+        }
+
+        Collections.shuffle(cardStack);
     }
 }

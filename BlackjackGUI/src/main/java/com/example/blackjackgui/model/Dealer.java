@@ -22,7 +22,7 @@ public class Dealer {
 
     // initial deal, gives each player, including npcs, two cards
     public void deal() {
-        for(int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
             user.drawCard(mainDeck);
             for (Player npc : npcList)
                 npc.drawCard(mainDeck);
@@ -30,11 +30,6 @@ public class Dealer {
     }
 
 
-
-    // TODO: For whenever a card is dealt to a player the table
-    public void updatePlayerHand(){
-        throw new UnsupportedOperationException("TODO");
-    }
 
     // For when the player makes their decision to hit or stay
     // it iterates to the next npc or dealer

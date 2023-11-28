@@ -31,32 +31,59 @@ public class Dealer {
 
 
 
-    // For when the player makes their decision to hit or stay
-    // it iterates to the next npc or dealer
-    public void updateTurn(){
-        throw new UnsupportedOperationException("TODO");
-    }
-
     // Update balance of winners
     public void updatePayout(){
         throw new UnsupportedOperationException("TODO");
     }
 
-    // update balance of losers
+    // when it is a npc's turn, they hit if they are under 21 no matter what
+    public void npcHit(){
+        for(Player npc : npcList){
+            if(npc.getHand().getTotal() < 21)
+                npc.drawCard(mainDeck);
+        }
+    }
+
     public void updateLoss(){
         throw new UnsupportedOperationException("TODO");
     }
 
-    public void minBet(){
-        throw new UnsupportedOperationException("TODO");
+    public boolean playerHit(){
+        if(user.getTotal() < 21) {
+            user.drawCard(mainDeck); // player hits
+            npcHit(); // rest of npcs have the opportunity to hit
+            return true;
+        }
+        // player cannot hit, as his total is above 21, bad state
+        return false;
     }
 
-    public void customBet(int bet) {
-        throw new UnsupportedOperationException("TODO");
+    public boolean endCondition(){
+        //
+        if(dealerHand.getTotal() > user.getTotal()){
+            throw new UnsupportedOperationException("TODO");
+        }
+        return false;
     }
 
-    public void playerHit(){
-        throw new UnsupportedOperationException("TODO");
+    // called when the player is done betting
+    public boolean stand(){
+        if(user.getTotal() > 21)
+            return false; // bad state, should have busted
+
+        while(dealerHand.getTotal() < 17){
+            Card tmp = mainDeck.pop();
+            dealerHand.addCard(mainDeck.pop());
+        }
+
+    }
+
+    public boolean bet(int betAmount){
+        if(betAmount >= user.getMinBet()){
+            user.bet(betAmount);
+            return true;
+        }
+        return false;
     }
 
     public void saveAndExit(){

@@ -6,6 +6,8 @@ public class User extends Player{
     private int playerMoney;
     private int minBet;
 
+    private int currentBet;
+
     PlayerAction actionType;
 
     public User(String playerName, int startingMoney, int minBet){
@@ -13,6 +15,8 @@ public class User extends Player{
         super();
         this.playerMoney = startingMoney;
         this.playerName = playerName;
+        this.currentBet = 0;
+        this.minBet = minBet;
 
         // TODO: instantiate actionType
         // actionType =
@@ -20,6 +24,19 @@ public class User extends Player{
 
     public int getTotal(){
         return getHand().getTotal();
+    }
+
+    public int getMinBet(){
+        return minBet;
+    }
+    
+    public boolean bet(int bet){
+        if(bet >= minBet && bet < playerMoney){
+            playerMoney -= bet;
+            currentBet = bet;
+            return true;
+        }
+        return false;
     }
 
 }

@@ -1,14 +1,14 @@
 package com.example.blackjackgui.command;
 
 import com.example.blackjackgui.model.Dealer;
-
-public class HitCommand extends Command{
-
-    public HitCommand(Dealer target){
+public class StandCommand extends Command{
+    public StandCommand(Dealer target){
         super(target);
     }
 
     public boolean execute(){
-        return target.playerHit();
+        return target.stand();
+
+        // TODO: reveal dealers card
     }
 }

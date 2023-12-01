@@ -14,10 +14,10 @@ public class User extends Player{
         //
         // TODO: make hand with factory?
         super();
-//        this.playerMoney = startingMoney;
-//        this.playerName = playerName;
+        this.playerMoney = startingMoney;
+        this.playerName = playerName;
         this.currentBet = 0;
-        //this.minBet = minBet;
+        this.minBet = minBet;
 
         // TODO: instantiate actionType
         // actionType =

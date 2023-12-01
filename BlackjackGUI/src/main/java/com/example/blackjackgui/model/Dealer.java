@@ -6,7 +6,7 @@ import java.util.List;
 public class Dealer {
     Deck mainDeck;
     Hand dealerHand;
-    User user;
+    public User user;
     List<Player> npcList = new ArrayList<>();
 
     public Dealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName){

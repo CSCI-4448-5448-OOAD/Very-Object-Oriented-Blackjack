@@ -39,20 +39,11 @@ public class GameTablePageController implements Initializable{
     }
     //TODO need to load a dealer instead
     Dealer dealer;
-    public void assignDealer(Dealer newDealer){
-        this.dealer = newDealer;
-    }
     public void loadDealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName){
-        //dealer.set;
-        //dealer.setNumDecks(numDecks);
+        this.dealer = new Dealer(numDecks, minBet, numNPCs, startingAmount, playerName);
 
-        //System.out.print(user.getPlayerName());
-        //int numDecks, int minBet, int numNPCs, int startingAmount, String playerName
     }
-//    public void loadUserPlayer(String playerName, int startingMoney, int minBet){
-//        this.user = new User(playerName,startingMoney,minBet);
-//        //System.out.print(user.getPlayerName());
-//    }
+
     @FXML
     Label currentBalanceLabel;
     Integer currentBalance;
@@ -63,27 +54,22 @@ public class GameTablePageController implements Initializable{
 
     @FXML
     Label minBetLabel;
-    Integer minBet;
     public void displayMinBet(Integer newMinBet){
         minBetLabel.setText(String.valueOf(newMinBet));
-        this.minBet = newMinBet;
-
     }
 
     @FXML
     Label playerNameTextField;
-    String playerName;
+
     public void displayName(String gamblerName){
         playerNameTextField.setText("Player: " + gamblerName);
-        this.playerName = gamblerName;
     }
 
     @FXML
     Label deckNumberLabel;
-    Integer deckNumber;
+
     public void displayDeckNumber(Integer deckNumber){
         deckNumberLabel.setText(Integer.toString(deckNumber) + "- Deck Shoe");
-        this.deckNumber = deckNumber;
     }
     @FXML
     private AnchorPane p1CardSlot1;
@@ -122,14 +108,12 @@ public class GameTablePageController implements Initializable{
     AnchorPane DealerCardSlot2;
     List<AnchorPane> CardSlotList = new ArrayList<AnchorPane>();
     //CardSlotList populated through displayNPCs. Auto Loaded through newGamePage
-    Integer npcNum;
     public void displayNPCs(Integer npcNumber){
 //        List<Label> NPCLabelList = new ArrayList<Label>();
 //        NPCLabelList.add(NPC1Label);
 //        NPCLabelList.add(NPC2Label);
 //        NPCLabelList.add(NPC3Label);
 //        NPCLabelList.add(NPC4Label);
-        npcNum = npcNumber;
         switch(npcNumber) {
             case 0:
                 // No Game Players
@@ -271,12 +255,19 @@ public class GameTablePageController implements Initializable{
         ft.setAutoReverse(true);
         ft.play();
     }
+
+    //TODO Delete testDealer stuff later. Used to test that dealer properly instantiates from NPGcontroller
+    @FXML
+    Label dealerTestLabel;
+    public void testDealer(ActionEvent event) throws InterruptedException{
+        //Dealer testDealer = new Dealer(1, 2, 2, 1, "Stingo");
+
+        dealerTestLabel.setText(dealer.user.getPlayerName());
+    }
+
     @Override //Populates the Choice box for the # of decks the player wants
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //TODO
-        //this.dealer = new Dealer(numDecks, minBet, numNPCs, startingAmount, playerName);
-        //this.dealer = new Dealer(deckNumber, minBet, npcNum, currentBalance, playerName);
-
+        //TODO NOTE no way to get the parameters set before the initialize runs.
 
     }
 }

@@ -12,7 +12,7 @@
          <children>
             <Button layoutX="15.0" layoutY="94.0" mnemonicParsing="false" onAction="#minBet" text="Custom Bet" />
             <Button layoutX="34.0" layoutY="136.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="39.0" text="Hit" />
-            <Button layoutX="131.0" layoutY="136.0" mnemonicParsing="false" text="Stay" />
+            <Button layoutX="131.0" layoutY="136.0" mnemonicParsing="false" onAction="#testDealer" text="Stay" />
             <Button layoutX="15.0" layoutY="53.0" mnemonicParsing="false" onAction="#minBet" prefHeight="25.0" prefWidth="77.0" text="Min. Bet" />
             <TextField layoutX="104.0" layoutY="94.0" prefHeight="25.0" prefWidth="93.0" />
             <Label fx:id="currentActionLabel" layoutX="15.0" layoutY="171.0" prefHeight="17.0" prefWidth="199.0" text="Current Action: asdf">
@@ -67,6 +67,7 @@
                   <Label layoutX="33.0" layoutY="6.0" text="Dealer" />
                   <AnchorPane fx:id="DealerCardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
                   <AnchorPane fx:id="DealerCardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" />
+                  <Label fx:id="dealerTestLabel" layoutX="142.0" layoutY="61.0" text="Label" />
                </children>
             </AnchorPane>
          </children>

@@ -84,11 +84,11 @@ public class NewGamePageController implements Initializable{
         gameTableCon.displayDeckNumber(deckNumber);
         gameTableCon.displayNPCs(npcNumber);
         //TODO initialize a User player that the dealer can take as a parameter.
+        gameTableCon.loadDealer(deckNumber, minBet, npcNumber, startingBalance, gamblerName);
         //Dealer setUpDealer = new Dealer(deckNumber, minBet, npcNumber, startingBalance, gamblerName);
         //System.out.println("Hit the chekc");
         //gameTableCon.assignDealer(setUpDealer);
         //gameTableCon.loadDealer(deckNumber, minBet, npcNumber, startingBalance, gamblerName);
-        //root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("GameTablePage.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

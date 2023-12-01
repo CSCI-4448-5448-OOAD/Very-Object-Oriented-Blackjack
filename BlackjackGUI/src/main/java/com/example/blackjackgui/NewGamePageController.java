@@ -1,5 +1,6 @@
 package com.example.blackjackgui;
 
+import com.example.blackjackgui.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +31,7 @@ public class NewGamePageController implements Initializable{
     Label alertLabel;
     @FXML
     TextField minBetTextField;
+    //Dealer dealer;
 
 
     public void switchToGameTablePage(ActionEvent event) throws IOException {
@@ -82,7 +84,9 @@ public class NewGamePageController implements Initializable{
         gameTableCon.displayDeckNumber(deckNumber);
         gameTableCon.displayNPCs(npcNumber);
         //TODO initialize a User player that the dealer can take as a parameter.
-
+        //Dealer setUpDealer = new Dealer(deckNumber, minBet, npcNumber, startingBalance, gamblerName);
+        //System.out.println("Hit the chekc");
+        //gameTableCon.assignDealer(setUpDealer);
         //gameTableCon.loadDealer(deckNumber, minBet, npcNumber, startingBalance, gamblerName);
         //root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("GameTablePage.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

@@ -1,5 +1,6 @@
 package com.example.blackjackgui;
 
+import com.example.blackjackgui.model.Dealer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +14,8 @@ public class GameDriver extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         //Setup
+        Dealer setUpDealer = new Dealer(4, 1, 1, 100, "Sting");
+
         Parent root = FXMLLoader.load(getClass().getResource("StartingPage.fxml"));
         Image icon = new Image("https://static.thenounproject.com/png/15599-200.png");
         stage.getIcons().add(icon);

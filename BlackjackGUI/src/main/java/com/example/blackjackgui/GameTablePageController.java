@@ -29,7 +29,6 @@ public class GameTablePageController implements Initializable{
     private Stage stage;
     private Scene scene;
     private Parent root;
-    //Dealer dealer;
     //User user;
     public void switchToStartingPage(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("StartingPage.fxml")));
@@ -39,38 +38,52 @@ public class GameTablePageController implements Initializable{
         stage.show();
     }
     //TODO need to load a dealer instead
-//    public void loadDealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName){
-//        dealer = new Dealer(numDecks, minBet, numNPCs, startingAmount, playerName);
-//        //System.out.print(user.getPlayerName());
-//        //int numDecks, int minBet, int numNPCs, int startingAmount, String playerName
-//    }
+    Dealer dealer;
+    public void assignDealer(Dealer newDealer){
+        this.dealer = newDealer;
+    }
+    public void loadDealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName){
+        //dealer.set;
+        //dealer.setNumDecks(numDecks);
+
+        //System.out.print(user.getPlayerName());
+        //int numDecks, int minBet, int numNPCs, int startingAmount, String playerName
+    }
 //    public void loadUserPlayer(String playerName, int startingMoney, int minBet){
 //        this.user = new User(playerName,startingMoney,minBet);
 //        //System.out.print(user.getPlayerName());
 //    }
     @FXML
     Label currentBalanceLabel;
+    Integer currentBalance;
     public void displayBalance(Integer balance){
         currentBalanceLabel.setText(String.valueOf(balance));
+        this.currentBalance = balance;
     }
 
     @FXML
     Label minBetLabel;
-    public void displayMinBet(Integer minBet){
-        minBetLabel.setText(String.valueOf(minBet));
+    Integer minBet;
+    public void displayMinBet(Integer newMinBet){
+        minBetLabel.setText(String.valueOf(newMinBet));
+        this.minBet = newMinBet;
 
     }
 
     @FXML
     Label playerNameTextField;
+    String playerName;
     public void displayName(String gamblerName){
         playerNameTextField.setText("Player: " + gamblerName);
+        this.playerName = gamblerName;
     }
 
     @FXML
     Label deckNumberLabel;
+    Integer deckNumber;
     public void displayDeckNumber(Integer deckNumber){
         deckNumberLabel.setText(Integer.toString(deckNumber) + "- Deck Shoe");
+        this.deckNumber = deckNumber;
     }
     @FXML
     private AnchorPane p1CardSlot1;
@@ -109,12 +122,14 @@ public class GameTablePageController implements Initializable{
     AnchorPane DealerCardSlot2;
     List<AnchorPane> CardSlotList = new ArrayList<AnchorPane>();
     //CardSlotList populated through displayNPCs. Auto Loaded through newGamePage
+    Integer npcNum;
     public void displayNPCs(Integer npcNumber){
 //        List<Label> NPCLabelList = new ArrayList<Label>();
 //        NPCLabelList.add(NPC1Label);
 //        NPCLabelList.add(NPC2Label);
 //        NPCLabelList.add(NPC3Label);
 //        NPCLabelList.add(NPC4Label);
+        npcNum = npcNumber;
         switch(npcNumber) {
             case 0:
                 // No Game Players
@@ -260,6 +275,7 @@ public class GameTablePageController implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //TODO
         //this.dealer = new Dealer(numDecks, minBet, numNPCs, startingAmount, playerName);
+        //this.dealer = new Dealer(deckNumber, minBet, npcNum, currentBalance, playerName);
 
 
     }

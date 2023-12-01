@@ -33,10 +33,10 @@ public class Deck {
     public void shuffle(){
         //TODO CANNOT USE .isEmpty() !!! USE .empty() for Stack var.
         // remove each element from the discard stack and add to card stack
-        while (!discardStack.isEmpty()) {
-            Card item = discardStack.pop();
-            cardStack.push(item);
-        }
+//        while (!discardStack.empty()) {
+//            Card item = discardStack.pop();
+//            cardStack.push(item);
+//        }
 
         Collections.shuffle(cardStack);
     }

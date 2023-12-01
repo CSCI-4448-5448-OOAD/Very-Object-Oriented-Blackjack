@@ -1,4 +1,5 @@
 package com.example.blackjackgui;
+import com.example.blackjackgui.model.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

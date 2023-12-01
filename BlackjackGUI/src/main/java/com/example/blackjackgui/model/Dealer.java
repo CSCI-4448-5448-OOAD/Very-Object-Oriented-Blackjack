@@ -75,6 +75,7 @@ public class Dealer {
             Card tmp = mainDeck.pop();
             dealerHand.addCard(mainDeck.pop());
         }
+        throw new UnsupportedOperationException("TODO");
 
     }
 

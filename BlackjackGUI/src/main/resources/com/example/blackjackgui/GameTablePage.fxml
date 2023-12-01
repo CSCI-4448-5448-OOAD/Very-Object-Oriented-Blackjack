@@ -10,7 +10,7 @@
    <children>
       <AnchorPane layoutX="386.0" prefHeight="151.0" prefWidth="215.0">
          <children>
-            <Button layoutX="15.0" layoutY="94.0" mnemonicParsing="false" onAction="#createCard" text="Custom Bet" />
+            <Button layoutX="15.0" layoutY="94.0" mnemonicParsing="false" onAction="#minBet" text="Custom Bet" />
             <Button layoutX="34.0" layoutY="136.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="39.0" text="Hit" />
             <Button layoutX="131.0" layoutY="136.0" mnemonicParsing="false" text="Stay" />
             <Button layoutX="15.0" layoutY="53.0" mnemonicParsing="false" onAction="#minBet" prefHeight="25.0" prefWidth="77.0" text="Min. Bet" />

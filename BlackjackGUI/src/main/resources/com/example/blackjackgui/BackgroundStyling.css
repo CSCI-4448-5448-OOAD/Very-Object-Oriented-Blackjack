@@ -7,7 +7,7 @@
 }
 .titleText{
     /*-fx-font-family: Impact;*/
-    -fx-font-family: "Power Red and Blue Intl";
+    -fx-font-family: "Impact";
 }
 .cardGIF1{
     -fx-background-image: url("images/spinCards.gif");

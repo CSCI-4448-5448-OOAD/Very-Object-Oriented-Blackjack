@@ -201,7 +201,6 @@ public class GameTablePageController implements Initializable{
     @FXML
     Label currentActionLabel;
     public void minBet(ActionEvent event) throws InterruptedException {
-        
         //TODO NOTE: The cards here are just for visuals. Real cards will b held w/in their
         //todo own classes.
 //        for(AnchorPane cardSlot : CardSlotList){

@@ -1,6 +1,9 @@
 package com.example.blackjackgui;
+import com.example.blackjackgui.model.*;
 
 import javafx.animation.FadeTransition;
+import javafx.fxml.Initializable;
+
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -16,18 +19,17 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.Random;
+import java.net.URL;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
-public class GameTablePageController {
+public class GameTablePageController implements Initializable{
     private Stage stage;
     private Scene scene;
     private Parent root;
+    //User user;
     public void switchToStartingPage(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("StartingPage.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -35,31 +37,46 @@ public class GameTablePageController {
         stage.setScene(scene);
         stage.show();
     }
+    //TODO need to load a dealer instead
+    Dealer dealer;
+    public void loadDealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName){
+        this.dealer = new Dealer(numDecks, minBet, numNPCs, startingAmount, playerName);
+
+    }
 
     @FXML
     Label currentBalanceLabel;
+    Integer currentBalance;
     public void displayBalance(Integer balance){
         currentBalanceLabel.setText(String.valueOf(balance));
+        this.currentBalance = balance;
     }
 
     @FXML
     Label minBetLabel;
-    public void displayMinBet(Integer minBet){
-        minBetLabel.setText(String.valueOf(minBet));
+    public void displayMinBet(Integer newMinBet){
+        minBetLabel.setText(String.valueOf(newMinBet));
     }
 
     @FXML
     Label playerNameTextField;
+
     public void displayName(String gamblerName){
         playerNameTextField.setText("Player: " + gamblerName);
     }
 
     @FXML
     Label deckNumberLabel;
+
     public void displayDeckNumber(Integer deckNumber){
         deckNumberLabel.setText(Integer.toString(deckNumber) + "- Deck Shoe");
     }
-
+    @FXML
+    private AnchorPane p1CardSlot1;
+    @FXML
+    private AnchorPane p1CardSlot2;
+    @FXML
+    private AnchorPane p1CardSlot3; //Maybe call this additional slot?
     @FXML
     Label NPC1Label;
     @FXML
@@ -90,7 +107,7 @@ public class GameTablePageController {
     @FXML
     AnchorPane DealerCardSlot2;
     List<AnchorPane> CardSlotList = new ArrayList<AnchorPane>();
-    //Populating this list so the game can more easily know where to deal cards
+    //CardSlotList populated through displayNPCs. Auto Loaded through newGamePage
     public void displayNPCs(Integer npcNumber){
 //        List<Label> NPCLabelList = new ArrayList<Label>();
 //        NPCLabelList.add(NPC1Label);
@@ -169,55 +186,18 @@ public class GameTablePageController {
                 CardSlotList.add(DealerCardSlot2);
 
                 break;
-
         }
-
     }
 
 
     @FXML
     private AnchorPane playerHandArea;
     //@FXML private AnchorPane panelLoadLabel;
-
     @FXML
     private AnchorPane dealerHandArea;
-    @FXML
-    private AnchorPane p1CardSlot1;
-    @FXML
-    private AnchorPane p1CardSlot2;
-    @FXML
-    private AnchorPane p1CardSlot3;
-
 
     //TODO Need to start making a function to encapsulate the glackjack logic
     //todo START WITH finding out how many players there are and dealing two cards to each
-    public int counter = 0;
-    public void createCard(ActionEvent event) throws InterruptedException {
-        //♥♦♠♣ Suit resource
-        Label sampleCard = new Label("7♠");
-        //Label sampleCard = new Label("7&spades");
-
-        sampleCard.getStylesheets().add(getClass().getResource("CardStyling.css").toExternalForm());
-        sampleCard.getStyleClass().add("sampleCard");
-        p1CardSlot1.getChildren().add(sampleCard);
-        Thread.sleep(1500);
-        Label sampleCard2 = new Label("9♠");
-        //Label sampleCard = new Label("7&spades");
-        sampleCard2.getStylesheets().add(getClass().getResource("CardStyling.css").toExternalForm());
-        sampleCard2.getStyleClass().add("sampleCard");
-        p1CardSlot2.getChildren().add(sampleCard2);
-
-
-        //playerHandArea.getChildren().add(sampleCard);
-//        if(counter < 1){
-//            p1CardSlot1.getChildren().add(sampleCard);
-//
-//        }else{
-//            p1CardSlot2.getChildren().add(sampleCard);
-//        }
-//        counter++;
-
-    }
     @FXML
     Label currentActionLabel;
     public void minBet(ActionEvent event) throws InterruptedException {
@@ -239,13 +219,15 @@ public class GameTablePageController {
                         throw new RuntimeException(e);
                     }
                 });
-                try {Thread.sleep(1500);} catch (InterruptedException ex) { ex.printStackTrace();}
+                try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
             }
 
         }).start();
 
 
     }
+    //dealSingleCard is a helper for any action that needs to deal a card
+    //TODO Currently deals random card values. need to implement player parameter to read hand value
     public void dealSingleCard(AnchorPane cardSlot) throws InterruptedException {
         String[] cardNums = new String[]{"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
         String[] cardSuits = new String[]{"♥","♦","♠","♣"};
@@ -266,12 +248,26 @@ public class GameTablePageController {
         }
 
         cardSlot.getChildren().add(sampleCard);
-        FadeTransition ft = new FadeTransition(Duration.millis(1500), sampleCard);
+        FadeTransition ft = new FadeTransition(Duration.millis(1000), sampleCard);
         ft.setFromValue(0.1);
         ft.setToValue(1.0);
         ft.setCycleCount(1); //Timeline.INDEFINITE
         ft.setAutoReverse(true);
         ft.play();
+    }
+
+    //TODO Delete testDealer stuff later. Used to test that dealer properly instantiates from NPGcontroller
+    @FXML
+    Label dealerTestLabel;
+    public void testDealer(ActionEvent event) throws InterruptedException{
+        //Dealer testDealer = new Dealer(1, 2, 2, 1, "Stingo");
+
+        dealerTestLabel.setText(dealer.user.getPlayerName());
+    }
+
+    @Override //Populates the Choice box for the # of decks the player wants
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //TODO NOTE no way to get the parameters set before the initialize runs.
 
     }
 }

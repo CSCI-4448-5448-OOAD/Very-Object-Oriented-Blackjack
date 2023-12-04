@@ -1,12 +1,13 @@
 package com.example.blackjackgui.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Dealer {
     Deck mainDeck;
     Hand dealerHand;
-    User user;
-    List<Player> npcList;
+    public User user;
+    List<Player> npcList = new ArrayList<>();
 
     public Dealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName){
 
@@ -14,12 +15,11 @@ public class Dealer {
         this.mainDeck = new Deck(numDecks);
         this.user = new User(playerName,startingAmount,minBet);
         this.dealerHand = new Hand();
-
         // create a list of players
-        for(int i = 0; i < numNPCs; i++)
-            npcList.add(new Player());
+        for(int i = 0; i < numNPCs; i++){
+            this.npcList.add(new Player());
+        }
     }
-
     // initial deal, gives each player, including npcs, two cards
     public void deal() {
         for (int i = 0; i < 2; i++) {
@@ -75,6 +75,7 @@ public class Dealer {
             Card tmp = mainDeck.pop();
             dealerHand.addCard(mainDeck.pop());
         }
+        throw new UnsupportedOperationException("TODO");
 
     }
 
@@ -85,7 +86,10 @@ public class Dealer {
         }
         return false;
     }
+    public void setNumDecks(Integer newNum){
+        this.mainDeck = new Deck(newNum);
 
+    }
     public void saveAndExit(){
         throw new UnsupportedOperationException("TODO");
     }

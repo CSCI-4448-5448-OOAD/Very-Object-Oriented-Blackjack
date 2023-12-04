@@ -11,6 +11,7 @@ public class User extends Player{
     PlayerAction actionType;
 
     public User(String playerName, int startingMoney, int minBet){
+        //
         // TODO: make hand with factory?
         super();
         this.playerMoney = startingMoney;
@@ -25,11 +26,33 @@ public class User extends Player{
     public int getTotal(){
         return getHand().getTotal();
     }
+    public String getPlayerName(){
+        return playerName;
+    }
+    public void setPlayerName(String newName){
+        playerName = newName;
+    }
+    public Integer getPlayerMoney(){
+        return playerMoney;
+    }
+    public void setPlayerMoney(Integer newMoney){
+        playerMoney = newMoney;
+    }
+
 
     public int getMinBet(){
         return minBet;
     }
-    
+    public void setMinBet(int newMin){
+        minBet = newMin;
+    }
+    public int getCurrentBet(){
+        return currentBet;
+    }
+    public void setCurrentBet(Integer newBet){
+        currentBet = newBet;
+    }
+
     public boolean bet(int bet){
         if(bet >= minBet && bet < playerMoney){
             playerMoney -= bet;

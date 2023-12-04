@@ -1,5 +1,6 @@
 package com.example.blackjackgui;
 
+import com.example.blackjackgui.model.Dealer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class Deck {
     private Stack<Card> cardStack;
-    private Stack<Card> discardStack;
+    private Stack<Card> discardStack = new Stack<Card>();
 
     public Deck(int numDecks){
         // initialize stack
@@ -31,8 +31,9 @@ public class Deck {
     }
 
     public void shuffle(){
+        //TODO CANNOT USE .isEmpty() !!! USE .empty() for Stack var.
         // remove each element from the discard stack and add to card stack
-        while (!discardStack.isEmpty()) {
+        while (!discardStack.empty()) {
             Card item = discardStack.pop();
             cardStack.push(item);
         }

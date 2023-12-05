@@ -10,11 +10,11 @@
    <children>
       <AnchorPane layoutX="386.0" layoutY="14.0" prefHeight="151.0" prefWidth="215.0">
          <children>
-            <Button layoutX="15.0" layoutY="94.0" mnemonicParsing="false" onAction="#minBet" text="Custom Bet" />
-            <Button layoutX="15.0" layoutY="123.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="39.0" text="Hit" />
-            <Button layoutX="62.0" layoutY="123.0" mnemonicParsing="false" onAction="#testDealer" text="Stay" />
+            <Button layoutX="15.0" layoutY="86.0" mnemonicParsing="false" onAction="#minBet" text="Custom Bet" />
+            <Button layoutX="15.0" layoutY="122.0" mnemonicParsing="false" onAction="#userHit" prefHeight="25.0" prefWidth="39.0" text="Hit" />
+            <Button layoutX="62.0" layoutY="122.0" mnemonicParsing="false" onAction="#testDealer" text="Stay" />
             <Button layoutX="15.0" layoutY="53.0" mnemonicParsing="false" onAction="#minBet" prefHeight="25.0" prefWidth="77.0" text="Min. Bet" />
-            <TextField layoutX="104.0" layoutY="94.0" prefHeight="25.0" prefWidth="93.0" />
+            <TextField layoutX="101.0" layoutY="86.0" prefHeight="25.0" prefWidth="93.0" />
             <Label fx:id="currentActionLabel" layoutX="15.0" layoutY="153.0" prefHeight="17.0" prefWidth="199.0" text="Current Action: asdf" textFill="WHITE">
                <font>
                   <Font size="13.0" />
@@ -28,46 +28,51 @@
             <Label layoutX="15.0" layoutY="30.0" prefHeight="17.0" prefWidth="93.0" text="Current Balance:" textFill="WHITE" />
             <Label fx:id="currentBalanceLabel" layoutX="108.0" layoutY="30.0" prefHeight="17.0" prefWidth="107.0" text="Label" textFill="WHITE" />
             <Label fx:id="minBetLabel" layoutX="108.0" layoutY="57.0" prefHeight="17.0" prefWidth="93.0" text="Label" textFill="WHITE" />
+            <Button layoutX="115.0" layoutY="122.0" mnemonicParsing="false" onAction="#testNPCHitDeal" prefHeight="25.0" prefWidth="77.0" text="npcHitTest" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="-1.0" layoutY="11.0" prefHeight="387.0" prefWidth="381.0">
          <children>
-            <AnchorPane layoutX="276.0" layoutY="227.0" prefHeight="144.0" prefWidth="93.0">
-               <children>
-                  <Label fx:id="NPC1Label" layoutX="33.0" layoutY="6.0" text="NPC1" textFill="WHITE" />
-                  <AnchorPane fx:id="NPC1CardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
-                  <AnchorPane fx:id="NPC1CardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" />
-               </children>
-            </AnchorPane>
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="107.0" layoutY="26.0" prefHeight="17.0" prefWidth="157.0" text="Game Table" textFill="WHITE" />
             <Label fx:id="deckNumberLabel" layoutX="14.0" layoutY="5.0" prefHeight="17.0" prefWidth="100.0" text="Label" textFill="WHITE" />
-            <AnchorPane layoutX="186.0" layoutY="227.0" prefHeight="155.0" prefWidth="93.0">
-               <children>
-                  <Label fx:id="NPC2Label" layoutX="33.0" layoutY="6.0" text="NPC2" textFill="WHITE" />
-                  <AnchorPane fx:id="NPC2CardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
-                  <AnchorPane fx:id="NPC2CardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" />
-               </children>
-            </AnchorPane>
-            <AnchorPane layoutX="92.0" layoutY="227.0" prefHeight="155.0" prefWidth="93.0">
-               <children>
-                  <Label fx:id="NPC3Label" layoutX="33.0" layoutY="6.0" text="NPC3" textFill="WHITE" />
-                  <AnchorPane fx:id="NPC3CardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
-                  <AnchorPane fx:id="NPC3CardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" />
-               </children>
-            </AnchorPane>
-            <AnchorPane layoutY="227.0" prefHeight="155.0" prefWidth="93.0">
+            <AnchorPane layoutY="131.0" prefHeight="251.0" prefWidth="93.0">
                <children>
                   <Label fx:id="NPC4Label" layoutX="33.0" layoutY="6.0" text="NPC4" textFill="WHITE" />
                   <AnchorPane fx:id="NPC4CardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
-                  <AnchorPane fx:id="NPC4CardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" />
+                  <AnchorPane fx:id="NPC4CardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+                  <AnchorPane fx:id="NPC4CardSlot3" layoutX="27.0" layoutY="108.0" prefHeight="147.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="dealerHandArea" layoutX="30.0" layoutY="35.0" prefHeight="99.0" prefWidth="311.0">
                <children>
                   <Label layoutX="33.0" layoutY="6.0" text="Dealer" textFill="WHITE" />
                   <AnchorPane fx:id="DealerCardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
-                  <AnchorPane fx:id="DealerCardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" />
+                  <AnchorPane fx:id="DealerCardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
                   <Label fx:id="dealerTestLabel" layoutX="142.0" layoutY="61.0" text="Label" textFill="WHITE" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="93.0" layoutY="131.0" prefHeight="251.0" prefWidth="93.0">
+               <children>
+                  <Label fx:id="NPC3Label" layoutX="33.0" layoutY="6.0" text="NPC3" textFill="WHITE" />
+                  <AnchorPane fx:id="NPC3CardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+                  <AnchorPane fx:id="NPC3CardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+                  <AnchorPane fx:id="NPC3CardSlot3" layoutX="27.0" layoutY="108.0" prefHeight="147.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="186.0" layoutY="131.0" prefHeight="251.0" prefWidth="93.0">
+               <children>
+                  <Label fx:id="NPC2Label" layoutX="33.0" layoutY="6.0" text="NPC2" textFill="WHITE" />
+                  <AnchorPane fx:id="NPC2CardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+                  <AnchorPane fx:id="NPC2CardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+                  <AnchorPane fx:id="NPC2CardSlot3" layoutX="27.0" layoutY="108.0" prefHeight="147.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="279.0" layoutY="131.0" prefHeight="251.0" prefWidth="93.0">
+               <children>
+                  <Label fx:id="NPC1Label" layoutX="33.0" layoutY="6.0" text="NPC1" textFill="WHITE" />
+                  <AnchorPane fx:id="NPC1CardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+                  <AnchorPane fx:id="NPC1CardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+                  <AnchorPane fx:id="NPC1CardSlot3" layoutX="27.0" layoutY="108.0" prefHeight="147.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
                </children>
             </AnchorPane>
          </children>
@@ -75,9 +80,13 @@
       <AnchorPane fx:id="playerHandArea" layoutX="394.0" layoutY="187.0" prefHeight="172.0" prefWidth="199.0" styleClass="playerHandArea" stylesheets="@CardStyling.css">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" layoutY="5.0" prefHeight="17.0" prefWidth="199.0" text="YOUR HAND" />
-            <AnchorPane fx:id="p1CardSlot1" layoutX="14.0" layoutY="40.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" />
-            <AnchorPane fx:id="p1CardSlot3" layoutX="80.0" layoutY="40.0" prefHeight="60.0" prefWidth="39.0" />
-            <AnchorPane fx:id="p1CardSlot2" layoutX="33.0" layoutY="54.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" />
+            <AnchorPane fx:id="p1CardSlot3" layoutX="80.0" layoutY="21.0" prefHeight="147.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+            <AnchorPane layoutX="-12.0" layoutY="-5.0" prefHeight="47.0" prefWidth="0.0">
+               <children>
+                  <AnchorPane fx:id="p1CardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+                  <AnchorPane fx:id="p1CardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+               </children>
+            </AnchorPane>
          </children></AnchorPane>
       <Button layoutX="515.0" layoutY="360.0" mnemonicParsing="false" onAction="#switchToStartingPage" prefHeight="25.0" prefWidth="77.0" text="Exit Game" />
       <Button layoutX="394.0" layoutY="360.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Save &amp; Exit" />

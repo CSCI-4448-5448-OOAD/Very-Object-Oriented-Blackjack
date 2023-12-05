@@ -7,7 +7,7 @@ public class Dealer {
     Deck mainDeck;
     Hand dealerHand;
     public User user;
-    List<Player> npcList = new ArrayList<>();
+    public List<Player> npcList = new ArrayList<>();
 
     public Dealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName){
 

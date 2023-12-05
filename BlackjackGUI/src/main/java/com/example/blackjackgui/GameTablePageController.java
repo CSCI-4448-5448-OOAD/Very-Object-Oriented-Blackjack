@@ -110,6 +110,8 @@ public class GameTablePageController implements Initializable{
     AnchorPane DealerCardSlot1;
     @FXML
     AnchorPane DealerCardSlot2;
+    @FXML
+    AnchorPane DealerCardSlot3;
     List<AnchorPane> StartingCardSlotList = new ArrayList<AnchorPane>();
     //CardSlotList populated through displayNPCs. Auto Loaded through newGamePage
     public void displayNPCs(Integer npcNumber){
@@ -246,11 +248,18 @@ public class GameTablePageController implements Initializable{
         }else{
             sampleCard.getStyleClass().add("blackCard");
         }
+        if(cardSlot == DealerCardSlot3){
+            Integer cardsInSlot = cardSlot.getChildren().size();
+            double offset = 16*cardsInSlot;
+            cardSlot.getChildren().add(sampleCard);
+            sampleCard.setLayoutX(offset); //Horizeontal Card Stack offset
+        }else{
+            Integer cardsInSlot = cardSlot.getChildren().size();
+            double offset = 16*cardsInSlot;
+            cardSlot.getChildren().add(sampleCard);
+            sampleCard.setLayoutY(offset); //Vertical Card stack offset
+        }
 
-        Integer cardsInSlot = cardSlot.getChildren().size();
-        double offset = 16*cardsInSlot;
-        cardSlot.getChildren().add(sampleCard);
-        sampleCard.setLayoutY(offset);
         FadeTransition ft = new FadeTransition(Duration.millis(1000), sampleCard);
         ft.setFromValue(0.1);
         ft.setToValue(1.0);
@@ -293,16 +302,14 @@ public class GameTablePageController implements Initializable{
 //    }
 
     public void testNPCHitDeal(ActionEvent event) throws InterruptedException{
-        ArrayList<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();
-        npcHitSlotList.add(NPC1CardSlot3);
-        npcHitSlotList.add(NPC2CardSlot3);
-        npcHitSlotList.add(NPC3CardSlot3);
-        npcHitSlotList.add(NPC4CardSlot3);
-
+        ArrayList<AnchorPane> npcHitSlotList = buildHitSlotList(dealer.npcList.size());
+        //Makes a list of all the hit card areas for the npc's and Dealer
         Random rand = new Random();
         new Thread(()->{ //use another thread so long process does not block gui
-            for(int k = 0; k<dealer.npcList.size(); k++)   {
+            //+1 to account for the dealer
+            for(int k = 0; k<dealer.npcList.size()+1; k++){
                 int numIdx = rand.nextInt(4);
+
                 AnchorPane pane = npcHitSlotList.get(k);
                 for(int i =0; i < numIdx+1; i++ ){
                     Platform.runLater(() -> {
@@ -318,6 +325,38 @@ public class GameTablePageController implements Initializable{
                 //update gui using fx thread
             }
         }).start();
+    }
+    public ArrayList<AnchorPane> buildHitSlotList(Integer npcListSize){
+        ArrayList<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();
+        switch (npcListSize) {
+            case 0:
+                npcHitSlotList.add(DealerCardSlot3);
+                break;
+            case 1:
+                npcHitSlotList.add(NPC1CardSlot3);
+                npcHitSlotList.add(DealerCardSlot3);
+                break;
+            case 2:
+                npcHitSlotList.add(NPC1CardSlot3);
+                npcHitSlotList.add(NPC2CardSlot3);
+                npcHitSlotList.add(DealerCardSlot3);
+                break;
+            case 3:
+                npcHitSlotList.add(NPC1CardSlot3);
+                npcHitSlotList.add(NPC2CardSlot3);
+                npcHitSlotList.add(NPC3CardSlot3);
+                npcHitSlotList.add(DealerCardSlot3);
+                break;
+            case 4:
+                npcHitSlotList.add(NPC1CardSlot3);
+                npcHitSlotList.add(NPC2CardSlot3);
+                npcHitSlotList.add(NPC3CardSlot3);
+                npcHitSlotList.add(NPC4CardSlot3);
+                npcHitSlotList.add(DealerCardSlot3);
+                break;
+        }
+        return npcHitSlotList;
+
     }
 
 

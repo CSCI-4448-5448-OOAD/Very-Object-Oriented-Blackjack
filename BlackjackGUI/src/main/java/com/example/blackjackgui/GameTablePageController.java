@@ -2,9 +2,9 @@ package com.example.blackjackgui;
 import com.example.blackjackgui.model.*;
 
 import javafx.animation.FadeTransition;
+import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,15 +13,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import java.io.IOException;
 
@@ -83,7 +80,8 @@ public class GameTablePageController implements Initializable{
     AnchorPane NPC1CardSlot1;
     @FXML
     AnchorPane NPC1CardSlot2;
-
+    @FXML
+    AnchorPane NPC1CardSlot3;
     @FXML
     Label NPC2Label;
     @FXML
@@ -91,11 +89,15 @@ public class GameTablePageController implements Initializable{
     @FXML
     AnchorPane NPC2CardSlot2;
     @FXML
+    AnchorPane NPC2CardSlot3;
+    @FXML
     Label NPC3Label;
     @FXML
     AnchorPane NPC3CardSlot1;
     @FXML
     AnchorPane NPC3CardSlot2;
+    @FXML
+    AnchorPane NPC3CardSlot3;
     @FXML
     Label NPC4Label;
     @FXML
@@ -103,10 +105,14 @@ public class GameTablePageController implements Initializable{
     @FXML
     AnchorPane NPC4CardSlot2;
     @FXML
+    AnchorPane NPC4CardSlot3;
+    @FXML
     AnchorPane DealerCardSlot1;
     @FXML
     AnchorPane DealerCardSlot2;
-    List<AnchorPane> CardSlotList = new ArrayList<AnchorPane>();
+    @FXML
+    AnchorPane DealerCardSlot3;
+    List<AnchorPane> StartingCardSlotList = new ArrayList<AnchorPane>();
     //CardSlotList populated through displayNPCs. Auto Loaded through newGamePage
     public void displayNPCs(Integer npcNumber){
 //        List<Label> NPCLabelList = new ArrayList<Label>();
@@ -123,13 +129,13 @@ public class GameTablePageController implements Initializable{
                 NPC2Label.setText(null);
                 NPC3Label.setText(null);
                 NPC4Label.setText(null);
-                CardSlotList.add(p1CardSlot1);
-                CardSlotList.add(NPC1CardSlot1);
-                CardSlotList.add(DealerCardSlot1);
+                StartingCardSlotList.add(p1CardSlot1);
+                StartingCardSlotList.add(NPC1CardSlot1);
+                StartingCardSlotList.add(DealerCardSlot1);
 
-                CardSlotList.add(p1CardSlot2);
-                CardSlotList.add(NPC1CardSlot2);
-                CardSlotList.add(DealerCardSlot2);
+                StartingCardSlotList.add(p1CardSlot2);
+                StartingCardSlotList.add(NPC1CardSlot2);
+                StartingCardSlotList.add(DealerCardSlot2);
 
                 break;
             case 2:
@@ -137,15 +143,15 @@ public class GameTablePageController implements Initializable{
                 NPC2Label.setText("NPC2");
                 NPC3Label.setText(null);
                 NPC4Label.setText(null);
-                CardSlotList.add(p1CardSlot1);
-                CardSlotList.add(NPC1CardSlot1);
-                CardSlotList.add(NPC2CardSlot1);
-                CardSlotList.add(DealerCardSlot1);
+                StartingCardSlotList.add(p1CardSlot1);
+                StartingCardSlotList.add(NPC1CardSlot1);
+                StartingCardSlotList.add(NPC2CardSlot1);
+                StartingCardSlotList.add(DealerCardSlot1);
 
-                CardSlotList.add(p1CardSlot2);
-                CardSlotList.add(NPC1CardSlot2);
-                CardSlotList.add(NPC2CardSlot2);
-                CardSlotList.add(DealerCardSlot2);
+                StartingCardSlotList.add(p1CardSlot2);
+                StartingCardSlotList.add(NPC1CardSlot2);
+                StartingCardSlotList.add(NPC2CardSlot2);
+                StartingCardSlotList.add(DealerCardSlot2);
 
                 break;
             case 3:
@@ -153,17 +159,17 @@ public class GameTablePageController implements Initializable{
                 NPC2Label.setText("NPC2");
                 NPC3Label.setText("NPC3");
                 NPC4Label.setText(null);
-                CardSlotList.add(p1CardSlot1);
-                CardSlotList.add(NPC1CardSlot1);
-                CardSlotList.add(NPC2CardSlot1);
-                CardSlotList.add(NPC3CardSlot1);
-                CardSlotList.add(DealerCardSlot1);
+                StartingCardSlotList.add(p1CardSlot1);
+                StartingCardSlotList.add(NPC1CardSlot1);
+                StartingCardSlotList.add(NPC2CardSlot1);
+                StartingCardSlotList.add(NPC3CardSlot1);
+                StartingCardSlotList.add(DealerCardSlot1);
 
-                CardSlotList.add(p1CardSlot2);
-                CardSlotList.add(NPC1CardSlot2);
-                CardSlotList.add(NPC2CardSlot2);
-                CardSlotList.add(NPC3CardSlot2);
-                CardSlotList.add(DealerCardSlot2);
+                StartingCardSlotList.add(p1CardSlot2);
+                StartingCardSlotList.add(NPC1CardSlot2);
+                StartingCardSlotList.add(NPC2CardSlot2);
+                StartingCardSlotList.add(NPC3CardSlot2);
+                StartingCardSlotList.add(DealerCardSlot2);
 
                 break;
             case 4:
@@ -171,19 +177,19 @@ public class GameTablePageController implements Initializable{
                 NPC2Label.setText("NPC2");
                 NPC3Label.setText("NPC3");
                 NPC4Label.setText("NPC4");
-                CardSlotList.add(p1CardSlot1);
-                CardSlotList.add(NPC1CardSlot1);
-                CardSlotList.add(NPC2CardSlot1);
-                CardSlotList.add(NPC3CardSlot1);
-                CardSlotList.add(NPC4CardSlot1);
-                CardSlotList.add(DealerCardSlot1);
+                StartingCardSlotList.add(p1CardSlot1);
+                StartingCardSlotList.add(NPC1CardSlot1);
+                StartingCardSlotList.add(NPC2CardSlot1);
+                StartingCardSlotList.add(NPC3CardSlot1);
+                StartingCardSlotList.add(NPC4CardSlot1);
+                StartingCardSlotList.add(DealerCardSlot1);
 
-                CardSlotList.add(p1CardSlot2);
-                CardSlotList.add(NPC1CardSlot2);
-                CardSlotList.add(NPC2CardSlot2);
-                CardSlotList.add(NPC3CardSlot2);
-                CardSlotList.add(NPC4CardSlot2);
-                CardSlotList.add(DealerCardSlot2);
+                StartingCardSlotList.add(p1CardSlot2);
+                StartingCardSlotList.add(NPC1CardSlot2);
+                StartingCardSlotList.add(NPC2CardSlot2);
+                StartingCardSlotList.add(NPC3CardSlot2);
+                StartingCardSlotList.add(NPC4CardSlot2);
+                StartingCardSlotList.add(DealerCardSlot2);
 
                 break;
         }
@@ -201,16 +207,14 @@ public class GameTablePageController implements Initializable{
     @FXML
     Label currentActionLabel;
     public void minBet(ActionEvent event) throws InterruptedException {
-        
+        startingCardDeal();
+    }
+    public void startingCardDeal(){
         //TODO NOTE: The cards here are just for visuals. Real cards will b held w/in their
         //todo own classes.
-//        for(AnchorPane cardSlot : CardSlotList){
-//            //♥♦♠♣ Suit resource
-//            dealSingleCard(cardSlot);//can change this to take whatever value is generated from the card classes
-//        }
 ///////////////////////////////
         new Thread(()->{ //use another thread so long process does not block gui
-            for(AnchorPane cardSlot : CardSlotList)   {
+            for(AnchorPane cardSlot : StartingCardSlotList)   {
                 //update gui using fx thread
                 Platform.runLater(() -> {
                     try {
@@ -221,9 +225,7 @@ public class GameTablePageController implements Initializable{
                 });
                 try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
             }
-
         }).start();
-
 
     }
     //dealSingleCard is a helper for any action that needs to deal a card
@@ -246,8 +248,18 @@ public class GameTablePageController implements Initializable{
         }else{
             sampleCard.getStyleClass().add("blackCard");
         }
+        if(cardSlot == DealerCardSlot3){ //calculate the offset for generating an additional card
+            Integer cardsInSlot = cardSlot.getChildren().size();
+            double offset = 16*cardsInSlot;
+            cardSlot.getChildren().add(sampleCard);
+            sampleCard.setLayoutX(offset); //Horizontal Card Stack offset
+        }else{
+            Integer cardsInSlot = cardSlot.getChildren().size();
+            double offset = 16*cardsInSlot;
+            cardSlot.getChildren().add(sampleCard);
+            sampleCard.setLayoutY(offset); //Vertical Card stack offset
+        }
 
-        cardSlot.getChildren().add(sampleCard);
         FadeTransition ft = new FadeTransition(Duration.millis(1000), sampleCard);
         ft.setFromValue(0.1);
         ft.setToValue(1.0);
@@ -255,6 +267,99 @@ public class GameTablePageController implements Initializable{
         ft.setAutoReverse(true);
         ft.play();
     }
+    public void userHit(ActionEvent event) throws InterruptedException{
+        dealSingleCard(p1CardSlot3);
+    }
+//    public void dealHitCard(AnchorPane pane) throws InterruptedException{
+//        String[] cardNums = new String[]{"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
+//        String[] cardSuits = new String[]{"♥","♦","♠","♣"};
+//        Random rand = new Random();
+//        int numIdx = rand.nextInt(13);
+//        int suitIdx = rand.nextInt(4);
+//        Label sampleCard;
+//        if(pane != DealerCardSlot2){
+//            sampleCard = new Label(cardNums[numIdx]+cardSuits[suitIdx]);
+//        }else{
+//            sampleCard = new Label(""); //Hidden dealer card
+//        }
+//        sampleCard.getStylesheets().add(getClass().getResource("CardStyling.css").toExternalForm());
+//        if(cardSuits[suitIdx].equals("♥") || cardSuits[suitIdx].equals("♦")){
+//            sampleCard.getStyleClass().add("redCard");
+//        }else{
+//            sampleCard.getStyleClass().add("blackCard");
+//        }
+//        Integer cardsInSlot = pane.getChildren().size();
+//        double offset = 16*cardsInSlot;
+//        pane.getChildren().add(sampleCard);
+//        sampleCard.setLayoutY(offset);
+//        FadeTransition ft = new FadeTransition(Duration.millis(1000), sampleCard);
+//        ft.setFromValue(0.1);
+//        ft.setToValue(1.0);
+//        ft.setCycleCount(1); //Timeline.INDEFINITE
+//        ft.setAutoReverse(true);
+//        ft.play();
+//
+//    }
+
+    public void testNPCHitDeal(ActionEvent event) throws InterruptedException{
+        ArrayList<AnchorPane> npcHitSlotList = buildHitSlotList(dealer.npcList.size());
+        //Makes a list of all the hit card areas for the npc's and Dealer
+        Random rand = new Random();
+        new Thread(()->{ //use another thread so long process does not block gui
+            //+1 to account for the dealer
+            for(int k = 0; k<dealer.npcList.size()+1; k++){
+                int numIdx = rand.nextInt(4);
+
+                AnchorPane pane = npcHitSlotList.get(k);
+                for(int i =0; i < numIdx+1; i++ ){
+                    Platform.runLater(() -> {
+                        try {
+//                            dealHitCard(hitCardSlot);
+                            dealSingleCard(pane);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
+                }
+                //update gui using fx thread
+            }
+        }).start();
+    }
+    //Builds a list of all the 3rd card slots
+    public ArrayList<AnchorPane> buildHitSlotList(Integer npcListSize){
+        ArrayList<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();
+        switch (npcListSize) {
+            case 0:
+                npcHitSlotList.add(DealerCardSlot3);
+                break;
+            case 1:
+                npcHitSlotList.add(NPC1CardSlot3);
+                npcHitSlotList.add(DealerCardSlot3);
+                break;
+            case 2:
+                npcHitSlotList.add(NPC1CardSlot3);
+                npcHitSlotList.add(NPC2CardSlot3);
+                npcHitSlotList.add(DealerCardSlot3);
+                break;
+            case 3:
+                npcHitSlotList.add(NPC1CardSlot3);
+                npcHitSlotList.add(NPC2CardSlot3);
+                npcHitSlotList.add(NPC3CardSlot3);
+                npcHitSlotList.add(DealerCardSlot3);
+                break;
+            case 4:
+                npcHitSlotList.add(NPC1CardSlot3);
+                npcHitSlotList.add(NPC2CardSlot3);
+                npcHitSlotList.add(NPC3CardSlot3);
+                npcHitSlotList.add(NPC4CardSlot3);
+                npcHitSlotList.add(DealerCardSlot3);
+                break;
+        }
+        return npcHitSlotList;
+
+    }
+
 
     //TODO Delete testDealer stuff later. Used to test that dealer properly instantiates from NPGcontroller
     @FXML

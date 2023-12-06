@@ -1,9 +1,14 @@
 package com.example.blackjackgui.model;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class Hand {
     private List<Card> cards;
+
+    public Hand(){
+        cards = new ArrayList<Card>();
+    }
 
     public void addCard(Card addedCard){
         cards.add(addedCard);

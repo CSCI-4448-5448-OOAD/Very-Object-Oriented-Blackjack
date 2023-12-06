@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Dealer {
     Deck mainDeck;
-    Hand dealerHand;
+    public Hand dealerHand;
     public User user;
     public List<Player> npcList = new ArrayList<>();
 
@@ -112,6 +112,9 @@ public class Dealer {
     }
     public void setNumDecks(Integer newNum){
         this.mainDeck = new Deck(newNum);
+    }
+    public Hand getNPCHand(int i){
+        return npcList.get(i).getHand();
     }
     public void saveAndExit(){
         throw new UnsupportedOperationException("TODO");

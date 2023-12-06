@@ -207,38 +207,85 @@ public class GameTablePageController implements Initializable{
     @FXML
     Label currentActionLabel;
     public void minBet(ActionEvent event) throws InterruptedException {
-        startingCardDeal();
-    }
-    public void startingCardDeal(){
-        //TODO NOTE: The cards here are just for visuals. Real cards will b held w/in their
-        //todo own classes.
-///////////////////////////////
+        //account for bet
+        dealer.bet(dealer.user.getMinBet());//Subtract from user total
+        //dealer.bet Calls deal to the players
+        //dealer.deal();//deal invis cards
+
         new Thread(()->{ //use another thread so long process does not block gui
-            for(AnchorPane cardSlot : StartingCardSlotList)   {
-                //update gui using fx thread
-                Platform.runLater(() -> {
-                    try {
-                        dealSingleCard(cardSlot);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+            //update gui using fx thread
+            Platform.runLater(() -> {
+                try {
+                    int cardSlotIDX = 0;
+                    for(int ib =0; ib<2; ib++){      //DEAL BOTH CARDS
+                        //user
+                        String cardString = dealer.user.getHand().getCard(ib).getCardString();
+                        dealSingleCard(cardString,StartingCardSlotList.get(cardSlotIDX));
+                        cardSlotIDX++;
+                        //npc
+                        for(int i = 0; i < dealer.npcList.size(); i++){
+                            cardString = dealer.getNPCHand(i).getCard(ib).getCardString();
+                            dealSingleCard(cardString,StartingCardSlotList.get(cardSlotIDX));
+                            cardSlotIDX++;
+                        }
+                        //dealer
+                        cardString = dealer.dealerHand.getCard(ib).getCardString();
+                        dealSingleCard(cardString,StartingCardSlotList.get(cardSlotIDX));
+                        cardSlotIDX++;
                     }
-                });
-                try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
-            }
+
+
+                    //deal user
+
+                    //deal npc
+
+                    //deal dealer
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
+
         }).start();
 
+
+        //startingCardDeal(dealer);
     }
+//    public void startingCardDeal(Dealer dealer){
+//        //TODO NOTE: The cards here are just for visuals. Real cards will b held w/in their
+//        //todo own classes.
+/////////////////////////////////
+//        new Thread(()->{ //use another thread so long process does not block gui
+//            for(AnchorPane cardSlot : StartingCardSlotList)   {
+//                //update gui using fx thread
+//                Platform.runLater(() -> {
+//                    try {
+//                        dealSingleCard(cardSlot);
+//                    } catch (InterruptedException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                });
+//                try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
+//            }
+//        }).start();
+//
+//    }
     //dealSingleCard is a helper for any action that needs to deal a card
     //TODO Currently deals random card values. need to implement player parameter to read hand value
-    public void dealSingleCard(AnchorPane cardSlot) throws InterruptedException {
+    public void dealSingleCard(String cardString, AnchorPane cardSlot) throws InterruptedException {
         String[] cardNums = new String[]{"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
         String[] cardSuits = new String[]{"♥","♦","♠","♣"};
         Random rand = new Random();
         int numIdx = rand.nextInt(13);
         int suitIdx = rand.nextInt(4);
+
+
         Label sampleCard;
         if(cardSlot != DealerCardSlot2){
-            sampleCard = new Label(cardNums[numIdx]+cardSuits[suitIdx]);
+//            sampleCard = new Label(cardNums[numIdx]+cardSuits[suitIdx]);
+            sampleCard = new Label(cardString);
+
+
         }else{
             sampleCard = new Label(""); //Hidden dealer card
         }
@@ -267,65 +314,36 @@ public class GameTablePageController implements Initializable{
         ft.setAutoReverse(true);
         ft.play();
     }
-    public void userHit(ActionEvent event) throws InterruptedException{
-        dealSingleCard(p1CardSlot3);
-    }
-//    public void dealHitCard(AnchorPane pane) throws InterruptedException{
-//        String[] cardNums = new String[]{"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
-//        String[] cardSuits = new String[]{"♥","♦","♠","♣"};
-//        Random rand = new Random();
-//        int numIdx = rand.nextInt(13);
-//        int suitIdx = rand.nextInt(4);
-//        Label sampleCard;
-//        if(pane != DealerCardSlot2){
-//            sampleCard = new Label(cardNums[numIdx]+cardSuits[suitIdx]);
-//        }else{
-//            sampleCard = new Label(""); //Hidden dealer card
-//        }
-//        sampleCard.getStylesheets().add(getClass().getResource("CardStyling.css").toExternalForm());
-//        if(cardSuits[suitIdx].equals("♥") || cardSuits[suitIdx].equals("♦")){
-//            sampleCard.getStyleClass().add("redCard");
-//        }else{
-//            sampleCard.getStyleClass().add("blackCard");
-//        }
-//        Integer cardsInSlot = pane.getChildren().size();
-//        double offset = 16*cardsInSlot;
-//        pane.getChildren().add(sampleCard);
-//        sampleCard.setLayoutY(offset);
-//        FadeTransition ft = new FadeTransition(Duration.millis(1000), sampleCard);
-//        ft.setFromValue(0.1);
-//        ft.setToValue(1.0);
-//        ft.setCycleCount(1); //Timeline.INDEFINITE
-//        ft.setAutoReverse(true);
-//        ft.play();
-//
+//    public void userHit(ActionEvent event) throws InterruptedException{
+//        dealSingleCard(p1CardSlot3);
 //    }
 
-    public void testNPCHitDeal(ActionEvent event) throws InterruptedException{
-        ArrayList<AnchorPane> npcHitSlotList = buildHitSlotList(dealer.npcList.size());
-        //Makes a list of all the hit card areas for the npc's and Dealer
-        Random rand = new Random();
-        new Thread(()->{ //use another thread so long process does not block gui
-            //+1 to account for the dealer
-            for(int k = 0; k<dealer.npcList.size()+1; k++){
-                int numIdx = rand.nextInt(4);
 
-                AnchorPane pane = npcHitSlotList.get(k);
-                for(int i =0; i < numIdx+1; i++ ){
-                    Platform.runLater(() -> {
-                        try {
-//                            dealHitCard(hitCardSlot);
-                            dealSingleCard(pane);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-                    try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
-                }
-                //update gui using fx thread
-            }
-        }).start();
-    }
+//    public void testNPCHitDeal(ActionEvent event) throws InterruptedException{
+//        ArrayList<AnchorPane> npcHitSlotList = buildHitSlotList(dealer.npcList.size());
+//        //Makes a list of all the hit card areas for the npc's and Dealer
+//        Random rand = new Random();
+//        new Thread(()->{ //use another thread so long process does not block gui
+//            //+1 to account for the dealer
+//            for(int k = 0; k<dealer.npcList.size()+1; k++){
+//                int numIdx = rand.nextInt(4);
+//
+//                AnchorPane pane = npcHitSlotList.get(k);
+//                for(int i =0; i < numIdx+1; i++ ){
+//                    Platform.runLater(() -> {
+//                        try {
+////                            dealHitCard(hitCardSlot);
+//                            dealSingleCard(pane);
+//                        } catch (InterruptedException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                    });
+//                    try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
+//                }
+//                //update gui using fx thread
+//            }
+//        }).start();
+//    }
     //Builds a list of all the 3rd card slots
     public ArrayList<AnchorPane> buildHitSlotList(Integer npcListSize){
         ArrayList<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();

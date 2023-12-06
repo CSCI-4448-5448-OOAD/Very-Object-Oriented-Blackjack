@@ -11,7 +11,7 @@
       <AnchorPane layoutX="386.0" layoutY="14.0" prefHeight="151.0" prefWidth="215.0">
          <children>
             <Button layoutX="15.0" layoutY="86.0" mnemonicParsing="false" onAction="#minBet" text="Custom Bet" />
-            <Button layoutX="15.0" layoutY="122.0" mnemonicParsing="false" onAction="#userHit" prefHeight="25.0" prefWidth="39.0" text="Hit" />
+            <Button layoutX="15.0" layoutY="122.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="39.0" text="Hit" />
             <Button layoutX="62.0" layoutY="122.0" mnemonicParsing="false" text="Stay" />
             <Button layoutX="15.0" layoutY="53.0" mnemonicParsing="false" onAction="#minBet" prefHeight="25.0" prefWidth="77.0" text="Min. Bet" />
             <TextField layoutX="101.0" layoutY="86.0" prefHeight="25.0" prefWidth="93.0" />
@@ -28,7 +28,7 @@
             <Label layoutX="15.0" layoutY="30.0" prefHeight="17.0" prefWidth="93.0" text="Current Balance:" textFill="WHITE" />
             <Label fx:id="currentBalanceLabel" layoutX="108.0" layoutY="30.0" prefHeight="17.0" prefWidth="107.0" text="Label" textFill="WHITE" />
             <Label fx:id="minBetLabel" layoutX="108.0" layoutY="57.0" prefHeight="17.0" prefWidth="93.0" text="Label" textFill="WHITE" />
-            <Button layoutX="115.0" layoutY="122.0" mnemonicParsing="false" onAction="#testNPCHitDeal" prefHeight="25.0" prefWidth="77.0" text="npcHitTest" />
+            <Button layoutX="115.0" layoutY="122.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="npcHitTest" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="-1.0" layoutY="11.0" prefHeight="387.0" prefWidth="381.0">

@@ -10,7 +10,6 @@ public class Dealer {
     public List<Player> npcList = new ArrayList<>();
 
     public Dealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName){
-
         // initialize deck, user, and dealer hand.
         this.mainDeck = new Deck(numDecks);
         this.user = new User(playerName,startingAmount,minBet);
@@ -58,37 +57,61 @@ public class Dealer {
         return false;
     }
 
-    public boolean endCondition(){
-        //
-        if(dealerHand.getTotal() > user.getTotal()){
-            throw new UnsupportedOperationException("TODO");
-        }
-        return false;
-    }
-
     // called when the player is done betting
     public boolean stand(){
         if(user.getTotal() > 21)
             return false; // bad state, should have busted
 
-        while(dealerHand.getTotal() < 17){
-            Card tmp = mainDeck.pop();
-            dealerHand.addCard(mainDeck.pop());
-        }
-        throw new UnsupportedOperationException("TODO");
+        // npcs make their decisions based on chart
 
+        // dealer hits until total
+        while(dealerHand.getTotal() <= 16)
+            dealerHand.addCard(mainDeck.pop());
+
+        if(dealerHand.getTotal() >= 21){
+            // player wins, dealer busts
+            playerWin();
+        }
+
+        // if dealer reveals higher hand he wins
+        if(dealerHand.getTotal() > user.getTotal()) {
+            // dealer wins
+            dealerWin();
+        }
+        else if (dealerHand.getTotal() < user.getTotal()){
+            // player wins
+            playerWin();
+        }
+
+        // deck and hands are reset
+        mainDeck.shuffle();
+        user.resetHand();
+        for(Player npc : npcList){
+            npc.resetHand();
+        }
+        return true;
+    }
+
+    // case where the player wins
+    private void playerWin(){
+        user.setPlayerMoney((int)(0.5 * user.getCurrentBet()) + user.getPlayerMoney());
+    }
+
+    private void dealerWin(){
+        user.setPlayerMoney((int)(user.getPlayerMoney() - user.getCurrentBet()));
     }
 
     public boolean bet(int betAmount){
+        // make sure bet is possible
         if(betAmount >= user.getMinBet()){
             user.bet(betAmount);
+            deal();
             return true;
         }
         return false;
     }
     public void setNumDecks(Integer newNum){
         this.mainDeck = new Deck(newNum);
-
     }
     public void saveAndExit(){
         throw new UnsupportedOperationException("TODO");

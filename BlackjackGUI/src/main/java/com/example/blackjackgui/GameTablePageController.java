@@ -211,11 +211,13 @@ public class GameTablePageController implements Initializable{
         dealer.bet(dealer.user.getMinBet());//Subtract from user total
         //dealer.bet Calls deal to the players
         //dealer.deal();//deal invis cards
+        //dealer.deal();//deal invis cards
 
         new Thread(()->{ //use another thread so long process does not block gui
             //update gui using fx thread
             Platform.runLater(() -> {
                 try {
+                    //TODO chop this.
                     int cardSlotIDX = 0;
                     for(int ib =0; ib<2; ib++){      //DEAL BOTH CARDS
                         //user
@@ -234,12 +236,6 @@ public class GameTablePageController implements Initializable{
                         cardSlotIDX++;
                     }
 
-
-                    //deal user
-
-                    //deal npc
-
-                    //deal dealer
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

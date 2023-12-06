@@ -6,6 +6,7 @@ import java.util.List;
 public class Dealer {
     Deck mainDeck;
     public Hand dealerHand;
+
     public User user;
     public List<Player> npcList = new ArrayList<>();
 
@@ -23,11 +24,20 @@ public class Dealer {
     public void deal() {
         for (int i = 0; i < 2; i++) {
             user.drawCard(mainDeck);
-            for (Player npc : npcList)
+            for (Player npc : npcList){
                 npc.drawCard(mainDeck);
+            }
+            this.dealerDrawCard(mainDeck);
         }
     }
-
+    public Card dealerDrawCard(Deck deck){
+        Card tmp = deck.pop();
+        dealerHand.addCard(deck.pop());
+        return tmp;
+    }
+    public void dealerResetHand(){
+        dealerHand.resetHand();
+    }
 
 
     // Update balance of winners

@@ -248,11 +248,11 @@ public class GameTablePageController implements Initializable{
         }else{
             sampleCard.getStyleClass().add("blackCard");
         }
-        if(cardSlot == DealerCardSlot3){
+        if(cardSlot == DealerCardSlot3){ //calculate the offset for generating an additional card
             Integer cardsInSlot = cardSlot.getChildren().size();
             double offset = 16*cardsInSlot;
             cardSlot.getChildren().add(sampleCard);
-            sampleCard.setLayoutX(offset); //Horizeontal Card Stack offset
+            sampleCard.setLayoutX(offset); //Horizontal Card Stack offset
         }else{
             Integer cardsInSlot = cardSlot.getChildren().size();
             double offset = 16*cardsInSlot;
@@ -326,6 +326,7 @@ public class GameTablePageController implements Initializable{
             }
         }).start();
     }
+    //Builds a list of all the 3rd card slots
     public ArrayList<AnchorPane> buildHitSlotList(Integer npcListSize){
         ArrayList<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();
         switch (npcListSize) {

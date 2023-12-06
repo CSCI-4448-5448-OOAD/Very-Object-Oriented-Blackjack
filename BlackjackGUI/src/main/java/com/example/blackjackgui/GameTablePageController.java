@@ -2,7 +2,6 @@ package com.example.blackjackgui;
 import com.example.blackjackgui.model.*;
 
 import javafx.animation.FadeTransition;
-import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 
 import javafx.application.Platform;
@@ -21,6 +20,7 @@ import java.net.URL;
 import java.util.*;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameTablePageController implements Initializable{
     private Stage stage;
@@ -113,6 +113,7 @@ public class GameTablePageController implements Initializable{
     @FXML
     AnchorPane DealerCardSlot3;
     List<AnchorPane> StartingCardSlotList = new ArrayList<AnchorPane>();
+    List<Hand> HandList = new ArrayList<Hand>();
     //CardSlotList populated through displayNPCs. Auto Loaded through newGamePage
     public void displayNPCs(Integer npcNumber){
 //        List<Label> NPCLabelList = new ArrayList<Label>();
@@ -208,44 +209,29 @@ public class GameTablePageController implements Initializable{
     Label currentActionLabel;
     public void minBet(ActionEvent event) throws InterruptedException {
         //account for bet
-        dealer.bet(dealer.user.getMinBet());//Subtract from user total
-        //dealer.bet Calls deal to the players
-        //dealer.deal();//deal invis cards
-        //dealer.deal();//deal invis cards
-
-        new Thread(()->{ //use another thread so long process does not block gui
-            //update gui using fx thread
-            Platform.runLater(() -> {
-                try {
-                    //TODO chop this.
-                    int cardSlotIDX = 0;
-                    for(int ib =0; ib<2; ib++){      //DEAL BOTH CARDS
-                        //user
-                        String cardString = dealer.user.getHand().getCard(ib).getCardString();
-                        dealSingleCard(cardString,StartingCardSlotList.get(cardSlotIDX));
-                        cardSlotIDX++;
-                        //npc
-                        for(int i = 0; i < dealer.npcList.size(); i++){
-                            cardString = dealer.getNPCHand(i).getCard(ib).getCardString();
-                            dealSingleCard(cardString,StartingCardSlotList.get(cardSlotIDX));
-                            cardSlotIDX++;
+        dealer.bet(dealer.user.getMinBet());//Subtract from user total, Deal invis cards
+        //TODO chop this.
+        AtomicInteger cardSlotIDX = new AtomicInteger(0);
+        AtomicInteger cardFirstSecond = new AtomicInteger(0);
+        new Thread(()->{
+            for(int ib = 0; ib<2; ib++){ //Loop 1 time for card 1. Loop 2nd time for card 2
+                for(Hand curHand : HandList){ //looping through the different players
+                    Platform.runLater(() -> {
+                        try {
+                            String cardString = curHand.getCard(cardFirstSecond.get()).getCardString();
+                            dealSingleCard(cardString,StartingCardSlotList.get(cardSlotIDX.get()));
+                            //perform deal card
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
                         }
-                        //dealer
-                        cardString = dealer.dealerHand.getCard(ib).getCardString();
-                        dealSingleCard(cardString,StartingCardSlotList.get(cardSlotIDX));
-                        cardSlotIDX++;
-                    }
-
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    });
+                    try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
+                    cardSlotIDX.getAndIncrement();
                 }
-            });
-            try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
+                cardFirstSecond.getAndIncrement();
+            }
 
         }).start();
-
-
-        //startingCardDeal(dealer);
     }
 //    public void startingCardDeal(Dealer dealer){
 //        //TODO NOTE: The cards here are just for visuals. Real cards will b held w/in their
@@ -286,7 +272,7 @@ public class GameTablePageController implements Initializable{
             sampleCard = new Label(""); //Hidden dealer card
         }
         sampleCard.getStylesheets().add(getClass().getResource("CardStyling.css").toExternalForm());
-        if(cardSuits[suitIdx].equals("♥") || cardSuits[suitIdx].equals("♦")){
+        if(cardString.contains("♥") || cardString.contains("♦")){
             sampleCard.getStyleClass().add("redCard");
         }else{
             sampleCard.getStyleClass().add("blackCard");
@@ -310,36 +296,7 @@ public class GameTablePageController implements Initializable{
         ft.setAutoReverse(true);
         ft.play();
     }
-//    public void userHit(ActionEvent event) throws InterruptedException{
-//        dealSingleCard(p1CardSlot3);
-//    }
 
-
-//    public void testNPCHitDeal(ActionEvent event) throws InterruptedException{
-//        ArrayList<AnchorPane> npcHitSlotList = buildHitSlotList(dealer.npcList.size());
-//        //Makes a list of all the hit card areas for the npc's and Dealer
-//        Random rand = new Random();
-//        new Thread(()->{ //use another thread so long process does not block gui
-//            //+1 to account for the dealer
-//            for(int k = 0; k<dealer.npcList.size()+1; k++){
-//                int numIdx = rand.nextInt(4);
-//
-//                AnchorPane pane = npcHitSlotList.get(k);
-//                for(int i =0; i < numIdx+1; i++ ){
-//                    Platform.runLater(() -> {
-//                        try {
-////                            dealHitCard(hitCardSlot);
-//                            dealSingleCard(pane);
-//                        } catch (InterruptedException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    });
-//                    try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
-//                }
-//                //update gui using fx thread
-//            }
-//        }).start();
-//    }
     //Builds a list of all the 3rd card slots
     public ArrayList<AnchorPane> buildHitSlotList(Integer npcListSize){
         ArrayList<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();
@@ -373,7 +330,14 @@ public class GameTablePageController implements Initializable{
         return npcHitSlotList;
 
     }
-
+    public void loadHandList(int npcNumber){
+        //loads hand list in accordance with the table order
+        HandList.add(dealer.user.getHand()); //load user hand
+        for(int i = 0; i < npcNumber; i++){
+            HandList.add(dealer.getNPCHand(i)); //add each npc hand
+        }
+        HandList.add(dealer.dealerHand); //add the dealer
+    }
 
     //TODO Delete testDealer stuff later. Used to test that dealer properly instantiates from NPGcontroller
     @FXML

@@ -85,6 +85,7 @@ public class NewGamePageController implements Initializable{
         gameTableCon.displayNPCs(npcNumber);
         //TODO initialize a User player that the dealer can take as a parameter.
         gameTableCon.loadDealer(deckNumber, minBet, npcNumber, startingBalance, gamblerName);
+        gameTableCon.loadHandList(npcNumber);
         //Dealer setUpDealer = new Dealer(deckNumber, minBet, npcNumber, startingBalance, gamblerName);
         //System.out.println("Hit the chekc");
         //gameTableCon.assignDealer(setUpDealer);

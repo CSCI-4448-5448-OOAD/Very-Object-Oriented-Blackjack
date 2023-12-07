@@ -2,7 +2,7 @@ package com.example.blackjackgui.model;
 
 public class User extends Player{
 
-    private static final User userInstance = new Player();
+    private static final User userInstance = new User();
     private String playerName;
     private int playerMoney;
     private int minBet;
@@ -10,8 +10,6 @@ public class User extends Player{
     PlayerAction actionType;
 
     private User(){
-        //
-        // TODO: make hand with factory?
         super();
         this.playerMoney = 0;
         this.playerName = "None";
@@ -22,7 +20,9 @@ public class User extends Player{
         // actionType =
     }
 
-    public User getInstance(){
+
+
+    public static User getInstance(){
         return userInstance;
     }
 

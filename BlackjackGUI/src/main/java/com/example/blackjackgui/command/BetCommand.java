@@ -19,7 +19,7 @@ public class BetCommand extends Command{
         betAmmount = customBetAmount;
     }
 
-    public void setBetAmmount(int betAmmount) {
+    public void setBetAmmount(int betAmmount){
         this.betAmmount = betAmmount;
     }
 

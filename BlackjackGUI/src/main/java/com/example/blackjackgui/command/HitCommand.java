@@ -9,6 +9,6 @@ public class HitCommand extends Command{
     }
 
     public boolean execute(){
-        return target.playerHit();
+        return target.userHit();
     }
 }

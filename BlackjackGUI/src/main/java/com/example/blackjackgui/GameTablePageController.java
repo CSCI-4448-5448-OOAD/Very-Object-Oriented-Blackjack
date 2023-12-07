@@ -1,5 +1,6 @@
 package com.example.blackjackgui;
 import com.example.blackjackgui.model.*;
+import com.example.blackjackgui.command.*;
 
 import javafx.animation.FadeTransition;
 import javafx.fxml.Initializable;
@@ -26,6 +27,8 @@ public class GameTablePageController implements Initializable{
     private Stage stage;
     private Scene scene;
     private Parent root;
+    private Command currentCommand;
+    Dealer dealer;
     //User user;
     public void switchToStartingPage(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("StartingPage.fxml")));
@@ -35,7 +38,7 @@ public class GameTablePageController implements Initializable{
         stage.show();
     }
     //TODO need to load a dealer instead
-    Dealer dealer;
+
     public void loadDealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName){
         this.dealer = new Dealer(numDecks, minBet, numNPCs, startingAmount, playerName);
         cardsRemaining.setText(Integer.toString(dealer.mainDeck.getCardStack().size()) + " - Cards Remaining");
@@ -221,9 +224,39 @@ public class GameTablePageController implements Initializable{
     Label cardsRemaining;
     public void minBet(ActionEvent event) throws InterruptedException {
         //account for bet
-        dealer.bet(dealer.user.getMinBet());//Subtract from user total, Deal invis cards
-        currentBalanceLabel.setText(Integer.toString(dealer.user.getPlayerMoney()));//set balance label
+        currentCommand = new BetCommand(dealer,this);
+        if (!currentCommand.execute()){
+           // improper bet, display somehow
+        }
+        else{
+            // disable betting for the rest of the round
+        }
+
+//        dealer.bet(dealer.user.getMinBet());//Subtract from user total, Deal invis cards
+    }
+
+    /**
+     * TODO Custom bet button handler
+     */
+
+    /**
+     * TODO Hit button handler
+     */
+
+    /**
+     * TODO Stay button handler
+     */
+
+    /**
+     * TODO Update Hand value labels
+     */
+    public void updateHandLabels(){
+        // TODO
+    }
+
+    public void startingDeal(){
         //TODO chop this.
+        currentBalanceLabel.setText(Integer.toString(dealer.user.getPlayerMoney()));//set balance label
         AtomicInteger cardSlotIDX = new AtomicInteger(0);
         AtomicInteger cardFirstSecond = new AtomicInteger(0);
         new Thread(()->{
@@ -247,6 +280,7 @@ public class GameTablePageController implements Initializable{
         }).start();
         cardsRemaining.setText(Integer.toString(dealer.mainDeck.getCardStack().size()) + " - Cards Remaining");
     }
+
 //    public void startingCardDeal(Dealer dealer){
 //        //TODO NOTE: The cards here are just for visuals. Real cards will b held w/in their
 //        //todo own classes.

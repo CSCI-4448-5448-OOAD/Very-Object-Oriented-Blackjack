@@ -1,13 +1,22 @@
 package com.example.blackjackgui.command;
 
+import com.example.blackjackgui.GameTablePageController;
 import com.example.blackjackgui.model.Dealer;
 
 public class BetCommand extends Command{
 
     int betAmmount;
-    public BetCommand(Dealer target){
+    GameTablePageController controller;
+    public BetCommand(Dealer target, GameTablePageController controller){
         super(target);
-        betAmmount = 0;
+        this.controller = controller;
+        betAmmount = target.user.getMinBet();
+    }
+
+    public BetCommand(Dealer target, GameTablePageController controller, int customBetAmount){
+        super(target);
+        this.controller = controller;
+        betAmmount = customBetAmount;
     }
 
     public void setBetAmmount(int betAmmount) {
@@ -15,6 +24,17 @@ public class BetCommand extends Command{
     }
 
     public boolean execute(){
-        return target.bet(betAmmount);
+        // updating the state of the game to begin dealing 2 cards per person
+        boolean res = target.bet(betAmmount);
+
+        // if the
+        if(!res) {
+            return false;
+        }
+
+        // update the GameTablePageContollers card view
+        controller.startingDeal();
+
+        return true;
     }
 }

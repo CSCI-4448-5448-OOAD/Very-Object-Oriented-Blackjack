@@ -38,7 +38,7 @@ public class GameTablePageController implements Initializable{
     Dealer dealer;
     public void loadDealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName){
         this.dealer = new Dealer(numDecks, minBet, numNPCs, startingAmount, playerName);
-
+        cardsRemaining.setText(Integer.toString(dealer.mainDeck.getCardStack().size()) + " - Cards Remaining");
     }
 
     @FXML
@@ -124,6 +124,16 @@ public class GameTablePageController implements Initializable{
         switch(npcNumber) {
             case 0:
                 // No Game Players
+                NPC1Label.setText(null);
+                NPC2Label.setText(null);
+                NPC3Label.setText(null);
+                NPC4Label.setText(null);
+                StartingCardSlotList.add(p1CardSlot1);
+                StartingCardSlotList.add(DealerCardSlot1);
+
+                StartingCardSlotList.add(p1CardSlot2);
+                StartingCardSlotList.add(DealerCardSlot2);
+
                 break;
             case 1:
                 NPC1Label.setText("NPC1");
@@ -207,9 +217,12 @@ public class GameTablePageController implements Initializable{
     //todo START WITH finding out how many players there are and dealing two cards to each
     @FXML
     Label currentActionLabel;
+    @FXML
+    Label cardsRemaining;
     public void minBet(ActionEvent event) throws InterruptedException {
         //account for bet
         dealer.bet(dealer.user.getMinBet());//Subtract from user total, Deal invis cards
+        currentBalanceLabel.setText(Integer.toString(dealer.user.getPlayerMoney()));//set balance label
         //TODO chop this.
         AtomicInteger cardSlotIDX = new AtomicInteger(0);
         AtomicInteger cardFirstSecond = new AtomicInteger(0);
@@ -218,7 +231,8 @@ public class GameTablePageController implements Initializable{
                 for(Hand curHand : HandList){ //looping through the different players
                     Platform.runLater(() -> {
                         try {
-                            String cardString = curHand.getCard(cardFirstSecond.get()).getCardString();
+                            //cardFirstSecond mod 2 gives either 0 or 1 for the card index we want
+                            String cardString = curHand.getCard((cardFirstSecond.get()%2)).getCardString();
                             dealSingleCard(cardString,StartingCardSlotList.get(cardSlotIDX.get()));
                             //perform deal card
                         } catch (InterruptedException e) {
@@ -230,8 +244,8 @@ public class GameTablePageController implements Initializable{
                 }
                 cardFirstSecond.getAndIncrement();
             }
-
         }).start();
+        cardsRemaining.setText(Integer.toString(dealer.mainDeck.getCardStack().size()) + " - Cards Remaining");
     }
 //    public void startingCardDeal(Dealer dealer){
 //        //TODO NOTE: The cards here are just for visuals. Real cards will b held w/in their

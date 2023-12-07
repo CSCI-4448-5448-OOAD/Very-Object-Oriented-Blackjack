@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Dealer {
-    Deck mainDeck;
+    public Deck mainDeck;
     public Hand dealerHand;
 
     public User user;
@@ -21,7 +21,7 @@ public class Dealer {
         }
     }
     // initial deal, gives each player, including npcs, two cards
-    public void deal() {
+    public void deal() {//deals the first two cards to the player
         for (int i = 0; i < 2; i++) {
             user.drawCard(mainDeck);
             for (Player npc : npcList){
@@ -32,7 +32,7 @@ public class Dealer {
     }
     public Card dealerDrawCard(Deck deck){
         Card tmp = deck.pop();
-        dealerHand.addCard(deck.pop());
+        dealerHand.addCard(tmp);
         return tmp;
     }
     public void dealerResetHand(){

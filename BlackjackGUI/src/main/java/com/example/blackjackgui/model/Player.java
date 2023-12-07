@@ -20,7 +20,7 @@ public class Player {
 
     public Card drawCard(Deck deck){
         Card tmp = deck.pop();
-        playerHand.addCard(deck.pop());
+        playerHand.addCard(tmp);
         return tmp;
     }
 }

@@ -40,4 +40,8 @@ public class Deck {
 
         Collections.shuffle(cardStack);
     }
+
+    public Stack<Card> getCardStack() {
+        return cardStack;
+    }
 }

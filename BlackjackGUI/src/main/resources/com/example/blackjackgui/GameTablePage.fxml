@@ -75,6 +75,7 @@
                   <AnchorPane fx:id="NPC1CardSlot3" layoutX="27.0" layoutY="108.0" prefHeight="147.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
                </children>
             </AnchorPane>
+            <Label fx:id="cardsRemaining" layoutX="256.0" layoutY="5.0" prefHeight="17.0" prefWidth="125.0" text="Label" textFill="WHITE" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="playerHandArea" layoutX="394.0" layoutY="187.0" prefHeight="172.0" prefWidth="199.0" styleClass="playerHandArea" stylesheets="@CardStyling.css">

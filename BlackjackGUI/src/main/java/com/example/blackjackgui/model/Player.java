@@ -1,8 +1,8 @@
 package com.example.blackjackgui.model;
 
 public class Player {
-    private Hand playerHand;
 
+    private Hand playerHand;
     private boolean stand;
 
     public Player(){

@@ -27,7 +27,7 @@ public class BetCommand extends Command{
         // updating the state of the game to begin dealing 2 cards per person
         boolean res = target.bet(betAmmount);
 
-        // if the
+        // if false return false
         if(!res) {
             return false;
         }

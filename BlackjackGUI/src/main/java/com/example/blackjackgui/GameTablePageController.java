@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -231,13 +232,28 @@ public class GameTablePageController implements Initializable{
         else{
             // disable betting for the rest of the round
         }
-
 //        dealer.bet(dealer.user.getMinBet());//Subtract from user total, Deal invis cards
     }
 
     /**
      * TODO Custom bet button handler
      */
+    @FXML
+    TextField customBetField;
+    public void customBet(ActionEvent event) throws InterruptedException {
+        //account for bet
+        int customBet = Integer.parseInt(customBetField.getText());
+        currentCommand = new BetCommand(dealer,this, customBet);
+        if (!currentCommand.execute()){ //if false
+            // improper bet, display somehow
+            //TODO throw an error or message for invalid bet.
+
+        }
+        else{//if true
+            // disable betting for the rest of the round
+        }
+//        dealer.bet(dealer.user.getMinBet());//Subtract from user total, Deal invis cards
+    }
 
     /**
      * TODO Hit button handler

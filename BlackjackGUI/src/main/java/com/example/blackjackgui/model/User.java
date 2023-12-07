@@ -64,8 +64,8 @@ public class User extends Player{
     }
 
     public boolean bet(int bet){
-        if(bet >= minBet && bet < playerMoney){
-            playerMoney -= bet;
+        if(bet >= minBet && bet <= playerMoney){ //if money is in bounds
+            playerMoney = playerMoney - bet;
             currentBet = bet;
             return true;
         }

@@ -5,8 +5,8 @@ import com.example.blackjackgui.model.Dealer;
 
 public class BetCommand extends Command{
 
-    int betAmmount;
-    GameTablePageController controller;
+    private int betAmmount;
+    private GameTablePageController controller;
     public BetCommand(Dealer target, GameTablePageController controller){
         super(target);
         this.controller = controller;
@@ -25,10 +25,7 @@ public class BetCommand extends Command{
 
     public boolean execute(){
         // updating the state of the game to begin dealing 2 cards per person
-        boolean res = target.bet(betAmmount);
-
-        // if the
-        if(!res) {
+        if(!target.bet(betAmmount)) {
             return false;
         }
 

@@ -44,7 +44,7 @@ public class Dealer {
     public void dealerResetHand(){
         dealerHand.resetHand();
     }
-    
+
 
     // when it is a npc's turn, they hit if they are under 21 no matter what
     public void npcHit(){

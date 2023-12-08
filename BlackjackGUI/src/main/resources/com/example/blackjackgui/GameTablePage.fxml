@@ -40,10 +40,12 @@
                   <AnchorPane fx:id="NPC4CardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
                   <AnchorPane fx:id="NPC4CardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
                   <AnchorPane fx:id="NPC4CardSlot3" layoutX="27.0" layoutY="108.0" prefHeight="147.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+                  <Label fx:id="NPC4HandLabel" layoutX="66.0" layoutY="6.0" prefHeight="17.0" prefWidth="47.0" styleClass="playerHandValue" stylesheets="@CardStyling.css" textFill="WHITE" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="dealerHandArea" layoutX="30.0" layoutY="35.0" prefHeight="99.0" prefWidth="311.0">
                <children>
+                  <Label fx:id="DealerHandLabel" layoutX="75.0" layoutY="6.0" prefHeight="17.0" prefWidth="47.0" styleClass="playerHandValue" stylesheets="@CardStyling.css" textFill="WHITE" />
                   <Label layoutX="33.0" layoutY="6.0" text="Dealer" textFill="WHITE" />
                   <AnchorPane fx:id="DealerCardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
                   <AnchorPane fx:id="DealerCardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
@@ -56,6 +58,7 @@
                   <AnchorPane fx:id="NPC3CardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
                   <AnchorPane fx:id="NPC3CardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
                   <AnchorPane fx:id="NPC3CardSlot3" layoutX="27.0" layoutY="108.0" prefHeight="147.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+                  <Label fx:id="NPC3HandLabel" layoutX="66.0" layoutY="6.0" prefHeight="17.0" prefWidth="47.0" styleClass="playerHandValue" stylesheets="@CardStyling.css" textFill="WHITE" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="186.0" layoutY="131.0" prefHeight="251.0" prefWidth="93.0">
@@ -64,10 +67,12 @@
                   <AnchorPane fx:id="NPC2CardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
                   <AnchorPane fx:id="NPC2CardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
                   <AnchorPane fx:id="NPC2CardSlot3" layoutX="27.0" layoutY="108.0" prefHeight="147.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
+                  <Label fx:id="NPC2HandLabel" layoutX="66.0" layoutY="6.0" prefHeight="17.0" prefWidth="47.0" styleClass="playerHandValue" stylesheets="@CardStyling.css" textFill="WHITE" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="279.0" layoutY="131.0" prefHeight="251.0" prefWidth="93.0">
                <children>
+                  <Label fx:id="NPC1HandLabel" layoutX="69.0" layoutY="6.0" prefHeight="17.0" prefWidth="47.0" styleClass="playerHandValue" stylesheets="@CardStyling.css" textFill="WHITE" />
                   <Label fx:id="NPC1Label" layoutX="33.0" layoutY="6.0" text="NPC1" textFill="WHITE" />
                   <AnchorPane fx:id="NPC1CardSlot1" layoutX="27.0" layoutY="26.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
                   <AnchorPane fx:id="NPC1CardSlot2" layoutX="43.0" layoutY="39.0" prefHeight="60.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
@@ -79,7 +84,8 @@
       </AnchorPane>
       <AnchorPane fx:id="playerHandArea" layoutX="394.0" layoutY="187.0" prefHeight="172.0" prefWidth="199.0" styleClass="playerHandArea" stylesheets="@CardStyling.css">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="5.0" prefHeight="17.0" prefWidth="199.0" text="YOUR HAND" />
+            <Label layoutX="14.0" prefHeight="17.0" prefWidth="77.0" text="YOUR HAND" />
+            <Label fx:id="p1HandLabel" layoutX="85.0" prefHeight="17.0" prefWidth="83.0" styleClass="playerHandValue" stylesheets="@CardStyling.css" />
             <AnchorPane fx:id="p1CardSlot3" layoutX="80.0" layoutY="21.0" prefHeight="147.0" prefWidth="39.0" styleClass="playerCardSlot" stylesheets="@CardStyling.css" />
             <AnchorPane layoutX="-12.0" layoutY="-5.0" prefHeight="47.0" prefWidth="0.0">
                <children>

@@ -10,6 +10,7 @@ public class Card {
     public Card(int rank, Suit suit){
         this.suit = suit;
         this.rank = rank;
+        //14 Labels
         cardNums = new String[]{"None","A","2","3","4","5","6","7","8","9","10","J","Q","K"};
         cardSuits = new String[]{"♠","♣","♥","♦"};
     }

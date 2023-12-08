@@ -33,4 +33,7 @@ public class Player {
         playerHand.addCard(tmp);
         return tmp;
     }
+    public int getTotal(){
+        return getHand().getTotal();
+    }
 }

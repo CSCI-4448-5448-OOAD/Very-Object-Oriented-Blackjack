@@ -47,11 +47,12 @@ public class Dealer {
 
 
     // when it is a npc's turn, they hit if they are under 21 no matter what
-    public void npcHit(){
-        for(Player npc : npcList){
-            npc.makeDecision(dealerHand.getTotal());
-        }
-    }
+//    public boolean npcChoice(){
+//        for(Player npc : npcList){
+//            npc.makeDecision(dealerHand.getTotal());
+//        }
+//        return
+//    }
 
     public void updateLoss(){
         throw new UnsupportedOperationException("TODO");
@@ -60,7 +61,7 @@ public class Dealer {
     public boolean userHit(){
         if(user.getTotal() < 21) {
             user.drawCard(mainDeck); // player hits
-            //npcHit(); // rest of npcs have the opportunity to hit
+           // npcHit(); // rest of npcs have the opportunity to hit
             return true;
         }
         // player cannot hit, as his total is above 21, bad state

@@ -300,11 +300,64 @@ public class GameTablePageController implements Initializable{
             //TODO throw an error or message for invalid bet.
         }
         else{//if true
-            // disable betting for the rest of the round
             //display the new card()
-            dealSingleCard(dealer.user.getHand().getCard(2).getCardString(),p1CardSlot3);
+            new Thread(()->{ //use another thread so long process does not block gui
+                //update gui using fx thread
+                Platform.runLater(() -> {
+                    try {
+                        //Card newestCard = dealer.user.getHand().getCard(-1);
+                        //gets most recent card
+                        dealSingleCard(dealer.user.getHand().getLastCard().getCardString(),p1CardSlot3);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
+
+            }).start();
+            if(dealer.user.getHand().getTotal() > 21){// IF User Busted
+                //BUST label
+                //GO to NPC's
+                //TODO CALL NPC HIT COMMAND
+                //loop through each npc.
+                int curNPCHitSlot = 0;
+                for(Player curNPC : dealer.npcList){
+                    currentCommand = new NPCActionCommand(dealer,this, curNPC);
+                    //Can hit multiple times. Update all the cards here
+                    if (currentCommand.execute()){ //if TRUE then npc HIT
+                        //NPC hit as many times as it could
+                        //Update card views
+                        for(int k=0; k < curNPC.getHand().cards.size(); k++){//for each additional card drawn
+                            if(k == 0 || k == 1){
+                                //skip starting cards
+                            }else{
+                                int finalK = k;
+                                int finalCurNPCHitSlot = curNPCHitSlot;
+                                new Thread(()->{ //use another thread so long process does not block gui
+                                    //update gui using fx thread
+                                    Platform.runLater(() -> {
+                                        try {
+                                            dealSingleCard(curNPC.getHand().getCard(finalK).getCardString(),npcHitSlotList.get(finalCurNPCHitSlot));
+                                        } catch (InterruptedException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    });
+                                    try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
+
+                                }).start();
+                            }
+                        }
+                    } else{
+                        //NPC Stayed
+                    }
+                    curNPCHitSlot++; //iterate to the next hitSlot for the next NPC
+                }
+            }
+            //dont go to npc's here. still an opportunity to hit or stay. If stay then go to npcs hit command
         }
     }
+
+
 
     /**
      * TODO Stay button handler
@@ -405,8 +458,9 @@ public class GameTablePageController implements Initializable{
     }
 
     //Builds a list of all the 3rd card slots
-    public ArrayList<AnchorPane> buildHitSlotList(Integer npcListSize){
-        ArrayList<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();
+    List<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();
+    public void buildHitSlotList(Integer npcListSize){
+        //ArrayList<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();
         switch (npcListSize) {
             case 0:
                 npcHitSlotList.add(DealerCardSlot3);
@@ -434,8 +488,6 @@ public class GameTablePageController implements Initializable{
                 npcHitSlotList.add(DealerCardSlot3);
                 break;
         }
-        return npcHitSlotList;
-
     }
 
     public void loadHandList(int npcNumber){

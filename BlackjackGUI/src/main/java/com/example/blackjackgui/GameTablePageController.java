@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -71,6 +72,27 @@ public class GameTablePageController implements Initializable{
 
     public void displayDeckNumber(Integer deckNumber){
         deckNumberLabel.setText(Integer.toString(deckNumber) + "- Deck Shoe");
+    }
+    @FXML
+    Button minBetButton;
+    @FXML
+    Button customBetButton;
+    @FXML
+    Button hitButton;
+    @FXML
+    Button stayButton;
+    public void enableStartingButtons(){
+        //Enables betting buttons. Disables play buttons
+        minBetButton.setDisable(false);//enabled
+        customBetButton.setDisable(false);//enabled
+        hitButton.setDisable(true);//disabled
+        stayButton.setDisable(true);//disabled
+    }
+    public void enablePlayButtons(){
+        minBetButton.setDisable(true);//disabled
+        customBetButton.setDisable(true);//disabled
+        hitButton.setDisable(false);//enabled
+        stayButton.setDisable(false);//enabled
     }
     @FXML
     private AnchorPane p1CardSlot1;
@@ -295,6 +317,7 @@ public class GameTablePageController implements Initializable{
             }
         }).start();
         cardsRemaining.setText(Integer.toString(dealer.mainDeck.getCardStack().size()) + " - Cards Remaining");
+        enablePlayButtons();
     }
 
 //    public void startingCardDeal(Dealer dealer){

@@ -38,3 +38,8 @@
     /*-fx-background-color: black;*/
     /*-fx-background-color: white;*/
 }
+.playerHandValue{
+    /*-fx-background-color: white;*/
+    -fx-background-color: clear;
+
+}

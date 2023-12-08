@@ -12,7 +12,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -72,6 +74,27 @@ public class GameTablePageController implements Initializable{
         deckNumberLabel.setText(Integer.toString(deckNumber) + "- Deck Shoe");
     }
     @FXML
+    Button minBetButton;
+    @FXML
+    Button customBetButton;
+    @FXML
+    Button hitButton;
+    @FXML
+    Button stayButton;
+    public void enableStartingButtons(){
+        //Enables betting buttons. Disables play buttons
+        minBetButton.setDisable(false);//enabled
+        customBetButton.setDisable(false);//enabled
+        hitButton.setDisable(true);//disabled
+        stayButton.setDisable(true);//disabled
+    }
+    public void enablePlayButtons(){
+        minBetButton.setDisable(true);//disabled
+        customBetButton.setDisable(true);//disabled
+        hitButton.setDisable(false);//enabled
+        stayButton.setDisable(false);//enabled
+    }
+    @FXML
     private AnchorPane p1CardSlot1;
     @FXML
     private AnchorPane p1CardSlot2;
@@ -117,6 +140,19 @@ public class GameTablePageController implements Initializable{
     AnchorPane DealerCardSlot3;
     List<AnchorPane> StartingCardSlotList = new ArrayList<AnchorPane>();
     List<Hand> HandList = new ArrayList<Hand>();
+    @FXML
+    Label p1HandLabel;
+    @FXML
+    Label NPC1HandLabel;
+    @FXML
+    Label NPC2HandLabel;
+    @FXML
+    Label NPC3HandLabel;
+    @FXML
+    Label NPC4HandLabel;
+    @FXML
+    Label DealerHandLabel;
+    List<Label> HandLabelList = new ArrayList<Label>();
     //CardSlotList populated through displayNPCs. Auto Loaded through newGamePage
     public void displayNPCs(Integer npcNumber){
 //        List<Label> NPCLabelList = new ArrayList<Label>();
@@ -231,13 +267,28 @@ public class GameTablePageController implements Initializable{
         else{
             // disable betting for the rest of the round
         }
-
 //        dealer.bet(dealer.user.getMinBet());//Subtract from user total, Deal invis cards
     }
 
     /**
      * TODO Custom bet button handler
      */
+    @FXML
+    TextField customBetField;
+    public void customBet(ActionEvent event) throws InterruptedException {
+        //account for bet
+        int customBet = Integer.parseInt(customBetField.getText());
+        currentCommand = new BetCommand(dealer,this, customBet);
+        if (!currentCommand.execute()){ //if false
+            // improper bet, display somehow
+            //TODO throw an error or message for invalid bet.
+
+        }
+        else{//if true
+            // disable betting for the rest of the round
+        }
+//        dealer.bet(dealer.user.getMinBet());//Subtract from user total, Deal invis cards
+    }
 
     /**
      * TODO Hit button handler
@@ -247,12 +298,7 @@ public class GameTablePageController implements Initializable{
      * TODO Stay button handler
      */
 
-    /**
-     * TODO Update Hand value labels
-     */
-    public void updateHandLabels(){
-        // TODO
-    }
+
 
     public void startingDeal(){
         //TODO chop this.
@@ -279,6 +325,8 @@ public class GameTablePageController implements Initializable{
             }
         }).start();
         cardsRemaining.setText(Integer.toString(dealer.mainDeck.getCardStack().size()) + " - Cards Remaining");
+        updateHandLabels();
+        enablePlayButtons();
     }
 
 //    public void startingCardDeal(Dealer dealer){
@@ -378,14 +426,76 @@ public class GameTablePageController implements Initializable{
         return npcHitSlotList;
 
     }
+
     public void loadHandList(int npcNumber){
         //loads hand list in accordance with the table order
         HandList.add(dealer.user.getHand()); //load user hand
+        HandLabelList.add(p1HandLabel);
         for(int i = 0; i < npcNumber; i++){
             HandList.add(dealer.getNPCHand(i)); //add each npc hand
         }
-        HandList.add(dealer.dealerHand); //add the dealer
+        switch(npcNumber) {
+            case 0:
+                //no npcs
+                HandList.add(dealer.dealerHand); //add the dealer
+                HandLabelList.add(DealerHandLabel);
+                break;
+            case 1:
+                HandLabelList.add(NPC1HandLabel);
+
+                HandList.add(dealer.dealerHand); //add the dealer
+                HandLabelList.add(DealerHandLabel);
+                break;
+            case 2:
+                HandLabelList.add(NPC1HandLabel);
+                HandLabelList.add(NPC2HandLabel);
+
+                HandList.add(dealer.dealerHand); //add the dealer
+                HandLabelList.add(DealerHandLabel);
+                break;
+            case 3:
+                HandLabelList.add(NPC1HandLabel);
+                HandLabelList.add(NPC2HandLabel);
+                HandLabelList.add(NPC3HandLabel);
+
+                HandList.add(dealer.dealerHand); //add the dealer
+                HandLabelList.add(DealerHandLabel);
+                break;
+            case 4:
+                HandLabelList.add(NPC1HandLabel);
+                HandLabelList.add(NPC2HandLabel);
+                HandLabelList.add(NPC3HandLabel);
+                HandLabelList.add(NPC4HandLabel);
+
+                HandList.add(dealer.dealerHand); //add the dealer
+                HandLabelList.add(DealerHandLabel);
+                break;
+        }//load npcHandLabels
+;
     }
+    public void updateHandLabels(){
+        //loop through user, npc list, and dealer
+        int curNPC = 0;
+        p1HandLabel.setText(Integer.toString(dealer.user.getHand().getTotal())) ;
+        for(int i=0; i<HandLabelList.size(); i++){
+            if(i > 0 && i<(HandLabelList.size()-1)){ // updates only the npc labels
+                //updates when i between 1 and idx of last element
+                HandLabelList.get(i).setText(Integer.toString(dealer.npcList.get(curNPC).getHand().getTotal()));
+                curNPC++;
+            }else{
+
+            }
+        }
+        DealerHandLabel.setText(Integer.toString(dealer.dealerHand.getTotal()));
+    }
+    /**
+     * TODO Update Hand value labels
+     */
+
+    public String returnHandString(){
+        return "lol";
+    }
+
 
     //TODO Delete testDealer stuff later. Used to test that dealer properly instantiates from NPGcontroller
     @FXML

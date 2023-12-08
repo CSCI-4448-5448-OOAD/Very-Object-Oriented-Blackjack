@@ -83,8 +83,9 @@ public class NewGamePageController implements Initializable{
         gameTableCon.displayName(gamblerName);
         gameTableCon.displayDeckNumber(deckNumber);
         gameTableCon.displayNPCs(npcNumber);
+        gameTableCon.enableStartingButtons();
         gameTableCon.loadDealer(deckNumber, minBet, npcNumber, startingBalance, gamblerName);
-        gameTableCon.loadHandList(npcNumber);
+        gameTableCon.loadHandList(npcNumber);//loads player hands and labels
 
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

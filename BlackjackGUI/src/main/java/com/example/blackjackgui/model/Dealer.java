@@ -13,7 +13,13 @@ public class Dealer {
     public Dealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName){
         // initialize deck, user, and dealer hand.
         this.mainDeck = new Deck(numDecks);
-        this.user = new User(playerName,startingAmount,minBet);
+        this.user = User.getInstance(); // get user instance
+
+        // set user attributes
+        user.setPlayerMoney(startingAmount);
+        user.setPlayerName(playerName);
+        user.setMinBet(minBet);
+
         this.dealerHand = new Hand();
         // create a list of players
         for(int i = 0; i < numNPCs; i++){
@@ -40,11 +46,6 @@ public class Dealer {
     }
 
 
-    // Update balance of winners
-    public void updatePayout(){
-        throw new UnsupportedOperationException("TODO");
-    }
-
     // when it is a npc's turn, they hit if they are under 21 no matter what
     public void npcHit(){
         for(Player npc : npcList){
@@ -57,7 +58,7 @@ public class Dealer {
         throw new UnsupportedOperationException("TODO");
     }
 
-    public boolean playerHit(){
+    public boolean userHit(){
         if(user.getTotal() < 21) {
             user.drawCard(mainDeck); // player hits
             npcHit(); // rest of npcs have the opportunity to hit
@@ -113,7 +114,8 @@ public class Dealer {
 
     public boolean bet(int betAmount){
         // make sure bet is possible
-        if(betAmount >= user.getMinBet()){
+        if((betAmount >= user.getMinBet()) && (betAmount <= user.getPlayerMoney())){
+            //if bet amount is greater than minimum && Less than Current balance
             user.bet(betAmount);
             deal();
             return true;

@@ -293,7 +293,18 @@ public class GameTablePageController implements Initializable{
     /**
      * TODO Hit button handler
      */
-    
+    public void userHit(ActionEvent event) throws InterruptedException{
+        currentCommand = new HitCommand(dealer,this);
+        if (!currentCommand.execute()){ //if false
+            // improper bet, display somehow
+            //TODO throw an error or message for invalid bet.
+        }
+        else{//if true
+            // disable betting for the rest of the round
+            //display the new card()
+            dealSingleCard(dealer.user.getHand().getCard(2).getCardString(),p1CardSlot3);
+        }
+    }
 
     /**
      * TODO Stay button handler

@@ -13,11 +13,12 @@ public class HitCommand extends Command{
     }
 
     public boolean execute(){
-        if(!target.userHit()){
+        if(!target.userHit()){ //user gets a new card
             return false;
         }
 
         //Update gametable Page controllers view
+        //TODO make single player hit update
         controller.updateHandLabels();
 
         return true;

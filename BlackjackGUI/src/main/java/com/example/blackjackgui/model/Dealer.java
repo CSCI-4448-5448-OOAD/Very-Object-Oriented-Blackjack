@@ -114,7 +114,8 @@ public class Dealer {
 
     public boolean bet(int betAmount){
         // make sure bet is possible
-        if(betAmount >= user.getMinBet()){
+        if((betAmount >= user.getMinBet()) && (betAmount <= user.getPlayerMoney())){
+            //if bet amount is greater than minimum && Less than Current balance
             user.bet(betAmount);
             deal();
             return true;

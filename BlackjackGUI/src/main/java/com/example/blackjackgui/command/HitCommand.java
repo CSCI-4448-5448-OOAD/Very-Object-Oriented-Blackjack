@@ -18,7 +18,7 @@ public class HitCommand extends Command{
         }
 
         //Update gametable Page controllers view
-        controller.updateHands();
+        controller.updateHandLabels();
 
         return true;
     }

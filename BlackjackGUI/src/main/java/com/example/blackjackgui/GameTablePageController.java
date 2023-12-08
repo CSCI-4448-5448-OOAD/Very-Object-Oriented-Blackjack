@@ -325,7 +325,6 @@ public class GameTablePageController implements Initializable{
             }
         }).start();
         cardsRemaining.setText(Integer.toString(dealer.mainDeck.getCardStack().size()) + " - Cards Remaining");
-        updateHandLabels();
         enablePlayButtons();
     }
 

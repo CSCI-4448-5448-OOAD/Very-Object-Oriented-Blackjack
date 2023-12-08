@@ -31,6 +31,7 @@ public class BetCommand extends Command{
 
         // update the GameTablePageContollers card view
         controller.startingDeal();
+        controller.updateHandLabels();
 
         return true;
     }

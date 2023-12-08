@@ -13,6 +13,6 @@ public class StandCommand extends Command{
     public boolean execute(){
         return target.stand();
         // TODO: reveal dealers card
-        controller.revealDealersCard();
+//        controller.revealDealersCard();
     }
 }

@@ -18,6 +18,16 @@ public class Player {
         playerHand.resetHand();
     }
 
+    /**
+     *
+     * @param dealerHandValue value of the dealers hand
+     */
+    public void makeDecision(int dealerHandValue){
+        int playerHandValue = playerHand.getTotal();
+
+        // implement chart, if hitting, draw card
+    }
+
     public Card drawCard(Deck deck){
         Card tmp = deck.pop();
         playerHand.addCard(tmp);

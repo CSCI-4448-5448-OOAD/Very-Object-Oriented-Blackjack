@@ -18,12 +18,22 @@ public class Hand {
         return cards.get(index);
     }
 
+    /**
+     * @return highest card value that isn't a bust
+     */
     public int getTotal(){
         int total = 0;
         for(Card currentCard : cards){
             total += currentCard.getRank();
         }
         return total;
+    }
+
+    /**
+     * @return String of all possible hand combinations
+     */
+    public String getTotalString(){
+        return "";
     }
 
     public int getSize(){

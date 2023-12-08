@@ -49,8 +49,7 @@ public class Dealer {
     // when it is a npc's turn, they hit if they are under 21 no matter what
     public void npcHit(){
         for(Player npc : npcList){
-            if(npc.getHand().getTotal() < 21)
-                npc.drawCard(mainDeck);
+            npc.makeDecision(dealerHand.getTotal());
         }
     }
 

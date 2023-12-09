@@ -29,7 +29,7 @@ public class NPCActionCommand extends Command{
         // allow user to hit until it doesn't make senese
         boolean hitHappened = npcHit();
         if(hitHappened){
-            controller.updateHandLabels();
+            //controller.updateHandLabels();
             return true;
         }
         return false;//True for hit //False for Stay

@@ -19,7 +19,7 @@ public class HitCommand extends Command{
 
         //Update gametable Page controllers view
         //TODO make single player hit update
-        controller.updateHandLabels();
+        //controller.updateHandLabels();
 
         return true;
     }

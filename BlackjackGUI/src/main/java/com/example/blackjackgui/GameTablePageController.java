@@ -267,6 +267,7 @@ public class GameTablePageController implements Initializable{
         else{
             // disable betting for the rest of the round
         }
+        updateHandLabels();
 //        dealer.bet(dealer.user.getMinBet());//Subtract from user total, Deal invis cards
     }
 
@@ -317,6 +318,7 @@ public class GameTablePageController implements Initializable{
             }).start();
             //todo ^ above is the user hit and deal
             //todo SAVE SPOT
+            updateHandLabels();
             if(dealer.user.getHand().getTotal() > 21){// IF User Busted
                 //BUST label
                 //GO to NPC's
@@ -347,10 +349,10 @@ public class GameTablePageController implements Initializable{
                         curNPCHitSlot.getAndIncrement(); //iterate to the next hitSlot for the next NPC
                     }
                 }).start();
-                //updateHandLabels();
             }
             //dont go to npc's here. still an opportunity to hit or stay. If stay then go to npcs hit command
         }
+        updateHandLabels();
     }
 
 

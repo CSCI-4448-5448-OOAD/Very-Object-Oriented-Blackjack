@@ -267,7 +267,7 @@ public class GameTablePageController implements Initializable{
         else{
             // disable betting for the rest of the round
         }
-        updateHandLabels();
+//        updateHandLabels();
 //        dealer.bet(dealer.user.getMinBet());//Subtract from user total, Deal invis cards
     }
 
@@ -370,14 +370,19 @@ public class GameTablePageController implements Initializable{
         currentBalanceLabel.setText(Integer.toString(dealer.user.getPlayerMoney()));//set balance label
         AtomicInteger cardSlotIDX = new AtomicInteger(0);
         AtomicInteger cardFirstSecond = new AtomicInteger(0);
+        AtomicInteger handLabelIDX = new AtomicInteger(0);
         new Thread(()->{
             for(int ib = 0; ib<2; ib++){ //Loop 1 time for card 1. Loop 2nd time for card 2
+                handLabelIDX.getAndSet(0);
                 for(Hand curHand : HandList){ //looping through the different players
                     Platform.runLater(() -> {
                         try {
                             //cardFirstSecond mod 2 gives either 0 or 1 for the card index we want
                             String cardString = curHand.getCard((cardFirstSecond.get()%2)).getCardString();
                             dealSingleCard(cardString,StartingCardSlotList.get(cardSlotIDX.get()));
+                            //updateHandLabels();
+                            updateSingleHandLabel(HandLabelList.get(handLabelIDX.get()),Integer.toString(curHand.getTotal()));
+
                             //perform deal card
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
@@ -385,6 +390,7 @@ public class GameTablePageController implements Initializable{
                     });
                     try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
                     cardSlotIDX.getAndIncrement();
+                    handLabelIDX.getAndIncrement();
                 }
                 cardFirstSecond.getAndIncrement();
             }
@@ -550,6 +556,9 @@ public class GameTablePageController implements Initializable{
             }
         }
         DealerHandLabel.setText(Integer.toString(dealer.dealerHand.getTotal()));
+    }
+    public void updateSingleHandLabel(Label curLabel, String labelText){
+        curLabel.setText(labelText);
     }
     /**
      * TODO Update Hand value labels

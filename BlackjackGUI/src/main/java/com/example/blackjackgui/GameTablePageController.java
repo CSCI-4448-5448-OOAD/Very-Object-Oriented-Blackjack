@@ -309,6 +309,7 @@ public class GameTablePageController implements Initializable{
                         //Card newestCard = dealer.user.getHand().getCard(-1);
                         //gets most recent card
                         dealSingleCard(dealer.user.getHand().getLastCard().getCardString(),p1CardSlot3);
+                        updateHandLabels();
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -318,7 +319,6 @@ public class GameTablePageController implements Initializable{
             }).start();
             //todo ^ above is the user hit and deal
             //todo SAVE SPOT
-            updateHandLabels();
             if(dealer.user.getHand().getTotal() > 21){// IF User Busted
                 //BUST label
                 //GO to NPC's
@@ -338,6 +338,7 @@ public class GameTablePageController implements Initializable{
                                 Platform.runLater(() -> {
                                     try {
                                         dealSingleCard(curNPC.getHand().getLastCard().getCardString(),npcHitSlotList.get(curNPCHitSlot.intValue()));
+                                        updateHandLabels();
                                     } catch (InterruptedException e) {
                                         throw new RuntimeException(e);
                                     }
@@ -352,7 +353,7 @@ public class GameTablePageController implements Initializable{
             }
             //dont go to npc's here. still an opportunity to hit or stay. If stay then go to npcs hit command
         }
-        updateHandLabels();
+//        updateHandLabels();
     }
 
 

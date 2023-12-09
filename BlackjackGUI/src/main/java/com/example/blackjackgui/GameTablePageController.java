@@ -315,47 +315,44 @@ public class GameTablePageController implements Initializable{
                 try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
 
             }).start();
+            //todo ^ above is the user hit and deal
+            //todo SAVE SPOT
             if(dealer.user.getHand().getTotal() > 21){// IF User Busted
                 //BUST label
                 //GO to NPC's
                 //TODO CALL NPC HIT COMMAND
                 //loop through each npc.
-                int curNPCHitSlot = 0;
-                for(Player curNPC : dealer.npcList){
-                    currentCommand = new NPCActionCommand(dealer,this, curNPC);
-                    //Can hit multiple times. Update all the cards here
-                    if (currentCommand.execute()){ //if TRUE then npc HIT
-                        //NPC hit as many times as it could
-                        //Update card views
-                        for(int k=0; k < curNPC.getHand().cards.size(); k++){//for each additional card drawn
-                            if(k == 0 || k == 1){
-                                //skip starting cards
-                            }else{
-                                int finalK = k;
-                                int finalCurNPCHitSlot = curNPCHitSlot;
-                                new Thread(()->{ //use another thread so long process does not block gui
-                                    //update gui using fx thread
-                                    Platform.runLater(() -> {
-                                        try {
-                                            dealSingleCard(curNPC.getHand().getCard(finalK).getCardString(),npcHitSlotList.get(finalCurNPCHitSlot));
-                                        } catch (InterruptedException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                    });
-                                    try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
-
-                                }).start();
-                            }
+                AtomicInteger curNPCHitSlot = new AtomicInteger(0);
+                //atomics
+                new Thread(()->{ //use another thread so long process does not block gui
+                    for(Player curNPC : dealer.npcList){
+                        currentCommand = new NPCActionCommand(dealer,this, curNPC);
+                        //Can hit multiple times. Update all the cards here
+                        if (currentCommand.execute()){ //if TRUE then npc HIT
+                            //NPC hit as many times as it could
+                            //Update card views
+                             //TODO make these atomic. Put loops inside thread
+                                //update gui using fx thread
+                                Platform.runLater(() -> {
+                                    try {
+                                        dealSingleCard(curNPC.getHand().getLastCard().getCardString(),npcHitSlotList.get(curNPCHitSlot.intValue()));
+                                    } catch (InterruptedException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                });
+                                try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
+                        } else{
+                            //NPC Stayed
                         }
-                    } else{
-                        //NPC Stayed
+                        curNPCHitSlot.getAndIncrement(); //iterate to the next hitSlot for the next NPC
                     }
-                    curNPCHitSlot++; //iterate to the next hitSlot for the next NPC
-                }
+                }).start();
+                //updateHandLabels();
             }
             //dont go to npc's here. still an opportunity to hit or stay. If stay then go to npcs hit command
         }
     }
+
 
 
 
@@ -500,13 +497,13 @@ public class GameTablePageController implements Initializable{
         switch(npcNumber) {
             case 0:
                 //no npcs
-                HandList.add(dealer.dealerHand); //add the dealer
+                HandList.add(dealer.dealerHand); //add the dealer hand
                 HandLabelList.add(DealerHandLabel);
                 break;
             case 1:
                 HandLabelList.add(NPC1HandLabel);
 
-                HandList.add(dealer.dealerHand); //add the dealer
+                HandList.add(dealer.dealerHand); //add the dealer hand
                 HandLabelList.add(DealerHandLabel);
                 break;
             case 2:

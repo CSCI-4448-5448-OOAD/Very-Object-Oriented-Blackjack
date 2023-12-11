@@ -5,8 +5,6 @@ import com.example.blackjackgui.model.Dealer;
 public abstract class Command {
     Dealer target;
 
-
-
     Command(Dealer target){
         this.target = target;
     }

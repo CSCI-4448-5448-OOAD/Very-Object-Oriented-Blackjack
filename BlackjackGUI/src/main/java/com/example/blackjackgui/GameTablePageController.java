@@ -267,6 +267,7 @@ public class GameTablePageController implements Initializable{
         else{
             // disable betting for the rest of the round
         }
+//        updateHandLabels();
 //        dealer.bet(dealer.user.getMinBet());//Subtract from user total, Deal invis cards
     }
 
@@ -300,11 +301,78 @@ public class GameTablePageController implements Initializable{
             //TODO throw an error or message for invalid bet.
         }
         else{//if true
-            // disable betting for the rest of the round
             //display the new card()
-            dealSingleCard(dealer.user.getHand().getCard(2).getCardString(),p1CardSlot3);
+            new Thread(()->{ //use another thread so long process does not block gui
+                //update gui using fx thread
+                Platform.runLater(() -> {
+                    try {
+                        //Card newestCard = dealer.user.getHand().getCard(-1);
+                        //gets most recent card
+                        dealSingleCard(dealer.user.getHand().getLastCard().getCardString(),p1CardSlot3);
+                        updateHandLabels();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
+
+            }).start();
+            //todo ^ above is the user hit and deal
+            //todo SAVE SPOT
+            if(dealer.user.getHand().getTotal() >= 21){// IF User Busted
+                NPCDealerHitStay();
+            }
+            //dont go to npc's here. still an opportunity to hit or stay. If stay then go to npcs hit command
         }
+//        updateHandLabels();
     }
+
+    //This function runs the logic for all npc's and the dealer to hit or stay
+    public void NPCDealerHitStay(){
+        //loop through each npc.
+        AtomicInteger curNPCHitSlot = new AtomicInteger(0);
+        //atomics
+        new Thread(()->{ //use another thread so long process does not block gui
+            for(Player curNPC : dealer.npcList){ //replace this to be hand list
+                //if I need to datke
+                currentCommand = new NPCActionCommand(dealer,this, curNPC);
+                //Can hit multiple times. Update all the cards here
+                if (currentCommand.execute()){ //if TRUE then npc HIT
+                    //NPC hit as many times as it could
+                    //Update card views
+                    //TODO make these atomic. Put loops inside thread
+                    //update gui using fx thread
+                    AtomicInteger curCard = new AtomicInteger(2);
+                    for(int k = 2; k < curNPC.getHand().getSize(); k++) {
+                        Platform.runLater(() -> {
+                            try {
+                                //For each card in the in curHand
+                                dealSingleCard(curNPC.getHand().getCard(curCard.intValue()).getCardString(), npcHitSlotList.get(curNPCHitSlot.intValue()));
+                                curCard.getAndIncrement();
+
+                                updateHandLabels();
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                } else{
+                    //NPC Stayed
+                }
+                curNPCHitSlot.getAndIncrement(); //iterate to the next hitSlot for the next NPC
+            }
+        }).start();
+    }
+
+    public void userStay(ActionEvent event) throws InterruptedException{
+        NPCDealerHitStay();
+    }
+
 
     /**
      * TODO Stay button handler
@@ -317,14 +385,19 @@ public class GameTablePageController implements Initializable{
         currentBalanceLabel.setText(Integer.toString(dealer.user.getPlayerMoney()));//set balance label
         AtomicInteger cardSlotIDX = new AtomicInteger(0);
         AtomicInteger cardFirstSecond = new AtomicInteger(0);
+        AtomicInteger handLabelIDX = new AtomicInteger(0);
         new Thread(()->{
             for(int ib = 0; ib<2; ib++){ //Loop 1 time for card 1. Loop 2nd time for card 2
+                handLabelIDX.getAndSet(0);
                 for(Hand curHand : HandList){ //looping through the different players
                     Platform.runLater(() -> {
                         try {
                             //cardFirstSecond mod 2 gives either 0 or 1 for the card index we want
                             String cardString = curHand.getCard((cardFirstSecond.get()%2)).getCardString();
                             dealSingleCard(cardString,StartingCardSlotList.get(cardSlotIDX.get()));
+                            //updateHandLabels();
+                            updateSingleHandLabel(HandLabelList.get(handLabelIDX.get()),Integer.toString(curHand.getTotal()));
+
                             //perform deal card
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
@@ -332,6 +405,7 @@ public class GameTablePageController implements Initializable{
                     });
                     try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
                     cardSlotIDX.getAndIncrement();
+                    handLabelIDX.getAndIncrement();
                 }
                 cardFirstSecond.getAndIncrement();
             }
@@ -405,8 +479,10 @@ public class GameTablePageController implements Initializable{
     }
 
     //Builds a list of all the 3rd card slots
-    public ArrayList<AnchorPane> buildHitSlotList(Integer npcListSize){
-        ArrayList<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();
+    List<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();
+    public void buildHitSlotList(Integer npcListSize){
+        //ArrayList<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();
+        //adds dealer reguardless of npc num
         switch (npcListSize) {
             case 0:
                 npcHitSlotList.add(DealerCardSlot3);
@@ -434,34 +510,33 @@ public class GameTablePageController implements Initializable{
                 npcHitSlotList.add(DealerCardSlot3);
                 break;
         }
-        return npcHitSlotList;
-
     }
 
     public void loadHandList(int npcNumber){
         //loads hand list in accordance with the table order
         HandList.add(dealer.user.getHand()); //load user hand
         HandLabelList.add(p1HandLabel);
-        for(int i = 0; i < npcNumber; i++){
+        for(int i = 0; i < npcNumber +1; i++){
             HandList.add(dealer.getNPCHand(i)); //add each npc hand
+            //todo THE LAST NPC HAND IS THE DEALER . +1 to add dealer hand
         }
         switch(npcNumber) {
             case 0:
                 //no npcs
-                HandList.add(dealer.dealerHand); //add the dealer
+//                HandList.add(dealer.dealerHand); //add the dealer hand
                 HandLabelList.add(DealerHandLabel);
                 break;
             case 1:
                 HandLabelList.add(NPC1HandLabel);
 
-                HandList.add(dealer.dealerHand); //add the dealer
+//                HandList.add(dealer.dealerHand); //add the dealer hand
                 HandLabelList.add(DealerHandLabel);
                 break;
             case 2:
                 HandLabelList.add(NPC1HandLabel);
                 HandLabelList.add(NPC2HandLabel);
 
-                HandList.add(dealer.dealerHand); //add the dealer
+//                HandList.add(dealer.dealerHand); //add the dealer
                 HandLabelList.add(DealerHandLabel);
                 break;
             case 3:
@@ -469,7 +544,7 @@ public class GameTablePageController implements Initializable{
                 HandLabelList.add(NPC2HandLabel);
                 HandLabelList.add(NPC3HandLabel);
 
-                HandList.add(dealer.dealerHand); //add the dealer
+//                HandList.add(dealer.dealerHand); //add the dealer
                 HandLabelList.add(DealerHandLabel);
                 break;
             case 4:
@@ -478,7 +553,7 @@ public class GameTablePageController implements Initializable{
                 HandLabelList.add(NPC3HandLabel);
                 HandLabelList.add(NPC4HandLabel);
 
-                HandList.add(dealer.dealerHand); //add the dealer
+//                HandList.add(dealer.dealerHand); //add the dealer
                 HandLabelList.add(DealerHandLabel);
                 break;
         }//load npcHandLabels
@@ -489,7 +564,7 @@ public class GameTablePageController implements Initializable{
         int curNPC = 0;
         p1HandLabel.setText(Integer.toString(dealer.user.getHand().getTotal())) ;
         for(int i=0; i<HandLabelList.size(); i++){
-            if(i > 0 && i<(HandLabelList.size()-1)){ // updates only the npc labels
+            if(i > 0){ // updates only the npc & dealer labels
                 //updates when i between 1 and idx of last element
                 HandLabelList.get(i).setText(Integer.toString(dealer.npcList.get(curNPC).getHand().getTotal()));
                 curNPC++;
@@ -497,7 +572,10 @@ public class GameTablePageController implements Initializable{
 
             }
         }
-        DealerHandLabel.setText(Integer.toString(dealer.dealerHand.getTotal()));
+//        DealerHandLabel.setText(Integer.toString(dealer.dealerHand.getTotal()));
+    }
+    public void updateSingleHandLabel(Label curLabel, String labelText){
+        curLabel.setText(labelText);
     }
     /**
      * TODO Update Hand value labels

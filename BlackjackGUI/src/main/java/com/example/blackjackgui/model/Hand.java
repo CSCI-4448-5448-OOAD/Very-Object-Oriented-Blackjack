@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Hand {
-    private List<Card> cards;
+    public List<Card> cards;
 
     public Hand(){
         cards = new ArrayList<Card>();
@@ -16,6 +16,9 @@ public class Hand {
 
     public Card getCard(int index){
         return cards.get(index);
+    }
+    public Card getLastCard(){
+        return cards.get(cards.size() -1);
     }
 
     /**

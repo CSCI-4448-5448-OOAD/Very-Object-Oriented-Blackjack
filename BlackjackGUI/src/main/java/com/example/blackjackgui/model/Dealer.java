@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Dealer {
     public Deck mainDeck;
-    public Hand dealerHand;
+//    public Hand dealerHand;
 
     public User user;
     public List<Player> npcList = new ArrayList<>();
@@ -20,11 +20,12 @@ public class Dealer {
         user.setPlayerName(playerName);
         user.setMinBet(minBet);
 
-        this.dealerHand = new Hand();
+//        this.dealerHand = new Hand();
         // create a list of players
         for(int i = 0; i < numNPCs; i++){
             this.npcList.add(new Player());
         }
+        this.npcList.add(new Player()); //THIS IS WHERE DEALER HAND IS GOING
     }
     // initial deal, gives each player, including npcs, two cards
     public void deal() {//deals the first two cards to the player
@@ -32,26 +33,28 @@ public class Dealer {
             user.drawCard(mainDeck);
             for (Player npc : npcList){
                 npc.drawCard(mainDeck);
+                //LAST NPC IS DEALER
             }
-            this.dealerDrawCard(mainDeck);
+//            this.dealerDrawCard(mainDeck);
         }
     }
-    public Card dealerDrawCard(Deck deck){
-        Card tmp = deck.pop();
-        dealerHand.addCard(tmp);
-        return tmp;
-    }
-    public void dealerResetHand(){
-        dealerHand.resetHand();
-    }
+//    public Card dealerDrawCard(Deck deck){
+//        Card tmp = deck.pop();
+//        dealerHand.addCard(tmp);
+//        return tmp;
+//    }
+//    public void dealerResetHand(){
+//        dealerHand.resetHand();
+//    }
 
 
     // when it is a npc's turn, they hit if they are under 21 no matter what
-    public void npcHit(){
-        for(Player npc : npcList){
-            npc.makeDecision(dealerHand.getTotal());
-        }
-    }
+//    public boolean npcChoice(){
+//        for(Player npc : npcList){
+//            npc.makeDecision(dealerHand.getTotal());
+//        }
+//        return
+//    }
 
     public void updateLoss(){
         throw new UnsupportedOperationException("TODO");
@@ -60,7 +63,7 @@ public class Dealer {
     public boolean userHit(){
         if(user.getTotal() < 21) {
             user.drawCard(mainDeck); // player hits
-            //npcHit(); // rest of npcs have the opportunity to hit
+           // npcHit(); // rest of npcs have the opportunity to hit
             return true;
         }
         // player cannot hit, as his total is above 21, bad state
@@ -68,6 +71,7 @@ public class Dealer {
     }
 
     // called when the player is done betting
+    //todo fix after we update hit deal
     public boolean stand(){
         if(user.getTotal() > 21)
             return false; // bad state, should have busted
@@ -75,20 +79,20 @@ public class Dealer {
         // npcs make their decisions based on chart
 
         // dealer hits until total
-        while(dealerHand.getTotal() <= 16)
-            dealerHand.addCard(mainDeck.pop());
-
-        if(dealerHand.getTotal() >= 21){
+        while(npcList.get(npcList.size() - 1).getTotal() <= 16)
+            npcList.get(npcList.size() - 1).drawCard(this.mainDeck);
+            //draw a card to the dealer hand
+        if(npcList.get(npcList.size() - 1).getTotal() >= 21){
             // player wins, dealer busts
             playerWin();
         }
 
         // if dealer reveals higher hand he wins
-        if(dealerHand.getTotal() > user.getTotal()) {
+        if(npcList.get(npcList.size() - 1).getTotal() > user.getTotal()) {
             // dealer wins
             dealerWin();
         }
-        else if (dealerHand.getTotal() < user.getTotal()){
+        else if (npcList.get(npcList.size() - 1).getTotal() < user.getTotal()){
             // player wins
             playerWin();
         }

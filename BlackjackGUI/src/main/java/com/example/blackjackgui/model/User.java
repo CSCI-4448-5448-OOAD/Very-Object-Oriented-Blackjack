@@ -26,9 +26,7 @@ public class User extends Player{
         return userInstance;
     }
 
-    public int getTotal(){
-        return getHand().getTotal();
-    }
+
     public String getPlayerName(){
         return playerName;
     }

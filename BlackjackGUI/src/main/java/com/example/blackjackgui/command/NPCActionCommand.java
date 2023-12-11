@@ -1,7 +1,9 @@
 package com.example.blackjackgui.command;
 
 import com.example.blackjackgui.GameTablePageController;
+import com.example.blackjackgui.model.Card;
 import com.example.blackjackgui.model.Dealer;
+import com.example.blackjackgui.model.Hand;
 import com.example.blackjackgui.model.Player;
 
 import java.util.ArrayList;
@@ -10,17 +12,25 @@ import java.util.List;
 public class NPCActionCommand extends Command{
     GameTablePageController controller;
     Player curNPC;
+//    Hand curHand;
 
     public NPCActionCommand(Dealer target, GameTablePageController controller, Player curNPC){
         super(target);
         this.controller = controller;
         this.curNPC = curNPC;
+//        this.curHand = curHand;
     }
     public boolean npcHit(){
-        if(curNPC.getTotal() < 16) {
+        int startingVal = curNPC.getTotal();
+        while(curNPC.getTotal() < 30) {
             //TODO MAKE A CALCULATION FUNCTION
-            curNPC.drawCard(target.mainDeck); // player hits
-            return true;//NPC HIT
+            // for npc's check if curNPC is the dealer.[-1] and do different calculation for hit
+            Card tmp = target.mainDeck.pop();
+            curNPC.getHand().addCard(tmp);
+            //if curHand is dealer. if target.hand == curHand
+        }
+        if(curNPC.getTotal() > startingVal){ //if We did HIT
+            return true;
         }
         return false; //NPC STAY
     }

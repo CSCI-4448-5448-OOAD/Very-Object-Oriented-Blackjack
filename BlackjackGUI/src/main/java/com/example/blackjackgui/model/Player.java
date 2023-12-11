@@ -32,6 +32,7 @@ public class Player {
         Card tmp = deck.pop();
         playerHand.addCard(tmp);
         return tmp;
+        //going to circumvent this in hand.java instead.
     }
     public int getTotal(){
         return getHand().getTotal();

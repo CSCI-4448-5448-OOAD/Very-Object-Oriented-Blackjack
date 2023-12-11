@@ -327,7 +327,8 @@ public class GameTablePageController implements Initializable{
                 AtomicInteger curNPCHitSlot = new AtomicInteger(0);
                 //atomics
                 new Thread(()->{ //use another thread so long process does not block gui
-                    for(Player curNPC : dealer.npcList){
+                    for(Player curNPC : dealer.npcList){ //replace this to be hand list
+                        //if I need to datke
                         currentCommand = new NPCActionCommand(dealer,this, curNPC);
                         //Can hit multiple times. Update all the cards here
                         if (currentCommand.execute()){ //if TRUE then npc HIT
@@ -335,15 +336,25 @@ public class GameTablePageController implements Initializable{
                             //Update card views
                              //TODO make these atomic. Put loops inside thread
                                 //update gui using fx thread
+                            AtomicInteger curCard = new AtomicInteger(2);
+                            for(int k = 2; k < curNPC.getHand().getSize(); k++) {
                                 Platform.runLater(() -> {
                                     try {
-                                        dealSingleCard(curNPC.getHand().getLastCard().getCardString(),npcHitSlotList.get(curNPCHitSlot.intValue()));
+                                        //For each card in the in curHand
+                                        dealSingleCard(curNPC.getHand().getCard(curCard.intValue()).getCardString(), npcHitSlotList.get(curNPCHitSlot.intValue()));
+                                        curCard.getAndIncrement();
+
                                         updateHandLabels();
                                     } catch (InterruptedException e) {
                                         throw new RuntimeException(e);
                                     }
                                 });
-                                try {Thread.sleep(1000);} catch (InterruptedException ex) { ex.printStackTrace();}
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
                         } else{
                             //NPC Stayed
                         }
@@ -467,6 +478,7 @@ public class GameTablePageController implements Initializable{
     List<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();
     public void buildHitSlotList(Integer npcListSize){
         //ArrayList<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();
+        //adds dealer reguardless of npc num
         switch (npcListSize) {
             case 0:
                 npcHitSlotList.add(DealerCardSlot3);
@@ -500,26 +512,27 @@ public class GameTablePageController implements Initializable{
         //loads hand list in accordance with the table order
         HandList.add(dealer.user.getHand()); //load user hand
         HandLabelList.add(p1HandLabel);
-        for(int i = 0; i < npcNumber; i++){
+        for(int i = 0; i < npcNumber +1; i++){
             HandList.add(dealer.getNPCHand(i)); //add each npc hand
+            //todo THE LAST NPC HAND IS THE DEALER . +1 to add dealer hand
         }
         switch(npcNumber) {
             case 0:
                 //no npcs
-                HandList.add(dealer.dealerHand); //add the dealer hand
+//                HandList.add(dealer.dealerHand); //add the dealer hand
                 HandLabelList.add(DealerHandLabel);
                 break;
             case 1:
                 HandLabelList.add(NPC1HandLabel);
 
-                HandList.add(dealer.dealerHand); //add the dealer hand
+//                HandList.add(dealer.dealerHand); //add the dealer hand
                 HandLabelList.add(DealerHandLabel);
                 break;
             case 2:
                 HandLabelList.add(NPC1HandLabel);
                 HandLabelList.add(NPC2HandLabel);
 
-                HandList.add(dealer.dealerHand); //add the dealer
+//                HandList.add(dealer.dealerHand); //add the dealer
                 HandLabelList.add(DealerHandLabel);
                 break;
             case 3:
@@ -527,7 +540,7 @@ public class GameTablePageController implements Initializable{
                 HandLabelList.add(NPC2HandLabel);
                 HandLabelList.add(NPC3HandLabel);
 
-                HandList.add(dealer.dealerHand); //add the dealer
+//                HandList.add(dealer.dealerHand); //add the dealer
                 HandLabelList.add(DealerHandLabel);
                 break;
             case 4:
@@ -536,7 +549,7 @@ public class GameTablePageController implements Initializable{
                 HandLabelList.add(NPC3HandLabel);
                 HandLabelList.add(NPC4HandLabel);
 
-                HandList.add(dealer.dealerHand); //add the dealer
+//                HandList.add(dealer.dealerHand); //add the dealer
                 HandLabelList.add(DealerHandLabel);
                 break;
         }//load npcHandLabels
@@ -547,7 +560,7 @@ public class GameTablePageController implements Initializable{
         int curNPC = 0;
         p1HandLabel.setText(Integer.toString(dealer.user.getHand().getTotal())) ;
         for(int i=0; i<HandLabelList.size(); i++){
-            if(i > 0 && i<(HandLabelList.size()-1)){ // updates only the npc labels
+            if(i > 0){ // updates only the npc & dealer labels
                 //updates when i between 1 and idx of last element
                 HandLabelList.get(i).setText(Integer.toString(dealer.npcList.get(curNPC).getHand().getTotal()));
                 curNPC++;
@@ -555,7 +568,7 @@ public class GameTablePageController implements Initializable{
 
             }
         }
-        DealerHandLabel.setText(Integer.toString(dealer.dealerHand.getTotal()));
+//        DealerHandLabel.setText(Integer.toString(dealer.dealerHand.getTotal()));
     }
     public void updateSingleHandLabel(Label curLabel, String labelText){
         curLabel.setText(labelText);

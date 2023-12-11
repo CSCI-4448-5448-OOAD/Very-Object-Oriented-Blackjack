@@ -24,7 +24,7 @@ public class NPCActionCommand extends Command{
         int startingVal = curNPC.getTotal();
         while(curNPC.getTotal() < 30) {
             //TODO MAKE A CALCULATION FUNCTION
-            // for npc's check if curNPC is the dealer.[-1] and do different calculation for hit
+            // for npc's check if curNPC is the dealer.[list.size()-1] and do different calculation for hit
             Card tmp = target.mainDeck.pop();
             curNPC.getHand().addCard(tmp);
             //if curHand is dealer. if target.hand == curHand

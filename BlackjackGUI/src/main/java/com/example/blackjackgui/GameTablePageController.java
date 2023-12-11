@@ -319,55 +319,59 @@ public class GameTablePageController implements Initializable{
             }).start();
             //todo ^ above is the user hit and deal
             //todo SAVE SPOT
-            if(dealer.user.getHand().getTotal() > 21){// IF User Busted
-                //BUST label
-                //GO to NPC's
-                //TODO CALL NPC HIT COMMAND
-                //loop through each npc.
-                AtomicInteger curNPCHitSlot = new AtomicInteger(0);
-                //atomics
-                new Thread(()->{ //use another thread so long process does not block gui
-                    for(Player curNPC : dealer.npcList){ //replace this to be hand list
-                        //if I need to datke
-                        currentCommand = new NPCActionCommand(dealer,this, curNPC);
-                        //Can hit multiple times. Update all the cards here
-                        if (currentCommand.execute()){ //if TRUE then npc HIT
-                            //NPC hit as many times as it could
-                            //Update card views
-                             //TODO make these atomic. Put loops inside thread
-                                //update gui using fx thread
-                            AtomicInteger curCard = new AtomicInteger(2);
-                            for(int k = 2; k < curNPC.getHand().getSize(); k++) {
-                                Platform.runLater(() -> {
-                                    try {
-                                        //For each card in the in curHand
-                                        dealSingleCard(curNPC.getHand().getCard(curCard.intValue()).getCardString(), npcHitSlotList.get(curNPCHitSlot.intValue()));
-                                        curCard.getAndIncrement();
-
-                                        updateHandLabels();
-                                    } catch (InterruptedException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                });
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
-                        } else{
-                            //NPC Stayed
-                        }
-                        curNPCHitSlot.getAndIncrement(); //iterate to the next hitSlot for the next NPC
-                    }
-                }).start();
+            if(dealer.user.getHand().getTotal() >= 21){// IF User Busted
+                NPCDealerHitStay();
             }
             //dont go to npc's here. still an opportunity to hit or stay. If stay then go to npcs hit command
         }
 //        updateHandLabels();
     }
 
+    //This function runs the logic for all npc's and the dealer to hit or stay
+    public void NPCDealerHitStay(){
+        //loop through each npc.
+        AtomicInteger curNPCHitSlot = new AtomicInteger(0);
+        //atomics
+        new Thread(()->{ //use another thread so long process does not block gui
+            for(Player curNPC : dealer.npcList){ //replace this to be hand list
+                //if I need to datke
+                currentCommand = new NPCActionCommand(dealer,this, curNPC);
+                //Can hit multiple times. Update all the cards here
+                if (currentCommand.execute()){ //if TRUE then npc HIT
+                    //NPC hit as many times as it could
+                    //Update card views
+                    //TODO make these atomic. Put loops inside thread
+                    //update gui using fx thread
+                    AtomicInteger curCard = new AtomicInteger(2);
+                    for(int k = 2; k < curNPC.getHand().getSize(); k++) {
+                        Platform.runLater(() -> {
+                            try {
+                                //For each card in the in curHand
+                                dealSingleCard(curNPC.getHand().getCard(curCard.intValue()).getCardString(), npcHitSlotList.get(curNPCHitSlot.intValue()));
+                                curCard.getAndIncrement();
 
+                                updateHandLabels();
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                } else{
+                    //NPC Stayed
+                }
+                curNPCHitSlot.getAndIncrement(); //iterate to the next hitSlot for the next NPC
+            }
+        }).start();
+    }
+
+    public void userStay(ActionEvent event) throws InterruptedException{
+        NPCDealerHitStay();
+    }
 
 
     /**

@@ -12,7 +12,7 @@
          <children>
             <Button fx:id="customBetButton" layoutX="15.0" layoutY="86.0" mnemonicParsing="false" onAction="#customBet" text="Custom Bet" />
             <Button fx:id="hitButton" layoutX="15.0" layoutY="122.0" mnemonicParsing="false" onAction="#userHit" prefHeight="25.0" prefWidth="39.0" text="Hit" />
-            <Button fx:id="stayButton" layoutX="62.0" layoutY="122.0" mnemonicParsing="false" onAction="#updateHandLabels" text="Stay" />
+            <Button fx:id="stayButton" layoutX="62.0" layoutY="122.0" mnemonicParsing="false" onAction="#userStay" text="Stay" />
             <Button fx:id="minBetButton" layoutX="15.0" layoutY="53.0" mnemonicParsing="false" onAction="#minBet" prefHeight="25.0" prefWidth="77.0" text="Min. Bet" />
             <TextField fx:id="customBetField" layoutX="101.0" layoutY="86.0" prefHeight="25.0" prefWidth="93.0" />
             <Label fx:id="currentActionLabel" layoutX="15.0" layoutY="153.0" prefHeight="17.0" prefWidth="199.0" text="Current Action: asdf" textFill="WHITE">

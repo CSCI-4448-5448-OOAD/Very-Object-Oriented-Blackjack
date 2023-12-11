@@ -60,7 +60,7 @@ public class Dealer {
     public boolean userHit(){
         if(user.getTotal() < 21) {
             user.drawCard(mainDeck); // player hits
-            npcHit(); // rest of npcs have the opportunity to hit
+            //npcHit(); // rest of npcs have the opportunity to hit
             return true;
         }
         // player cannot hit, as his total is above 21, bad state

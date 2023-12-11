@@ -15,11 +15,6 @@
             <Button fx:id="stayButton" layoutX="62.0" layoutY="122.0" mnemonicParsing="false" onAction="#userStay" text="Stay" />
             <Button fx:id="minBetButton" layoutX="15.0" layoutY="53.0" mnemonicParsing="false" onAction="#minBet" prefHeight="25.0" prefWidth="77.0" text="Min. Bet" />
             <TextField fx:id="customBetField" layoutX="101.0" layoutY="86.0" prefHeight="25.0" prefWidth="93.0" />
-            <Label fx:id="currentActionLabel" layoutX="15.0" layoutY="153.0" prefHeight="17.0" prefWidth="199.0" text="Current Action: asdf" textFill="WHITE">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Label>
             <Label fx:id="playerNameTextField" layoutX="15.0" layoutY="5.0" prefHeight="17.0" prefWidth="199.0" text="Welcome:" textFill="WHITE">
                <font>
                   <Font size="14.0" />
@@ -95,6 +90,6 @@
             </AnchorPane>
          </children></AnchorPane>
       <Button layoutX="515.0" layoutY="360.0" mnemonicParsing="false" onAction="#switchToStartingPage" prefHeight="25.0" prefWidth="77.0" text="Exit Game" />
-      <Button layoutX="394.0" layoutY="360.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Save &amp; Exit" />
+      <Button fx:id="resetButton" layoutX="394.0" layoutY="360.0" mnemonicParsing="false" onAction="#resetAndPay" prefHeight="25.0" prefWidth="77.0" text="Reset Table" />
    </children>
 </AnchorPane>

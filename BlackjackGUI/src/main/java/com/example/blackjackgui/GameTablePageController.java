@@ -87,6 +87,8 @@ public class GameTablePageController implements Initializable{
         customBetButton.setDisable(false);//enabled
         hitButton.setDisable(true);//disabled
         stayButton.setDisable(true);//disabled
+        resetButton.setDisable(true);//disabled
+
     }
     public void enablePlayButtons(){
         minBetButton.setDisable(true);//disabled
@@ -94,6 +96,16 @@ public class GameTablePageController implements Initializable{
         hitButton.setDisable(false);//enabled
         stayButton.setDisable(false);//enabled
     }
+    public void enableResetButton(){
+        resetButton.setDisable(false);
+
+        minBetButton.setDisable(true);//disabled
+        customBetButton.setDisable(true);//disabled
+        hitButton.setDisable(true);//disabled
+        stayButton.setDisable(true);//disabled
+    }
+    @FXML
+    private Button resetButton;
     @FXML
     private AnchorPane p1CardSlot1;
     @FXML
@@ -321,6 +333,7 @@ public class GameTablePageController implements Initializable{
             //todo SAVE SPOT
             if(dealer.user.getHand().getTotal() >= 21){// IF User Busted
                 NPCDealerHitStay();
+                enableResetButton();
             }
             //dont go to npc's here. still an opportunity to hit or stay. If stay then go to npcs hit command
         }
@@ -348,11 +361,18 @@ public class GameTablePageController implements Initializable{
                             try {
                                 //For each card in the in curHand
                                 //todo update dealer deal 2nd card here if hit.
-
+                                if(curNPC.equals(dealer.npcList.get(dealer.npcList.size()-1))){
+                                    //if we are on the dealer print dealer face down card
+                                    DealerCardSlot2.getChildren().clear();
+                                    revealDealerCard(curNPC.getHand().getCard(1).getCardString(), DealerCardSlot2);
+                                }
                                 dealSingleCard(curNPC.getHand().getCard(curCard.intValue()).getCardString(), npcHitSlotList.get(curNPCHitSlot.intValue()));
                                 curCard.getAndIncrement();
-
-                                updateHandLabels();
+//                                updateSingleHandLabel(HandLabelList.get(handLabelIDX.get()),Integer.toString(curHand.getTotal()));
+                                if(curNPC.equals(dealer.npcList.get(dealer.npcList.size()-1))){
+                                    //if we are on the dealer and last card
+                                    updateHandLabels();
+                                }
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
@@ -366,6 +386,21 @@ public class GameTablePageController implements Initializable{
                 } else{
                     //NPC Stayed
                     //todo thread for updating dealer 2nd card if stay
+                    Platform.runLater(() -> {
+                        //For each card in the in curHand
+                        //todo update dealer deal 2nd card here if hit.
+                        if(curNPC.equals(dealer.npcList.get(dealer.npcList.size()-1))){
+                            //if we are on the dealer print dealer face down card
+                            DealerCardSlot2.getChildren().clear();
+                            revealDealerCard(curNPC.getHand().getCard(1).getCardString(), DealerCardSlot2);
+                            updateHandLabels();
+                        }
+                    });
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
                 }
                 curNPCHitSlot.getAndIncrement(); //iterate to the next hitSlot for the next NPC
             }
@@ -374,6 +409,7 @@ public class GameTablePageController implements Initializable{
 
     public void userStay(ActionEvent event) throws InterruptedException{
         NPCDealerHitStay();
+        enableResetButton();
     }
 
 
@@ -415,7 +451,9 @@ public class GameTablePageController implements Initializable{
                             String cardString = curHand.getCard((cardFirstSecond.get()%2)).getCardString();
                             dealSingleCard(cardString,StartingCardSlotList.get(cardSlotIDX.get()));
                             //updateHandLabels();
-                            updateSingleHandLabel(HandLabelList.get(handLabelIDX.get()),Integer.toString(curHand.getTotal()));
+                            if(!curHand.equals(HandList.get(HandList.size()-1))){//if we're on the dealer DON"T SHOW HIS HAND
+                                updateSingleHandLabel(HandLabelList.get(handLabelIDX.get()),Integer.toString(curHand.getTotal()));
+                            }
 
                             //perform deal card
                         } catch (InterruptedException e) {
@@ -496,7 +534,35 @@ public class GameTablePageController implements Initializable{
         ft.setAutoReverse(true);
         ft.play();
     }
+    public void revealDealerCard(String cardString, AnchorPane cardSlot){
+        Label sampleCard;
+        sampleCard = new Label(cardString);
 
+        sampleCard.getStylesheets().add(getClass().getResource("CardStyling.css").toExternalForm());
+        if(cardString.contains("♥") || cardString.contains("♦")){
+            sampleCard.getStyleClass().add("redCard");
+        }else{
+            sampleCard.getStyleClass().add("blackCard");
+        }
+        if(cardSlot == DealerCardSlot3){ //calculate the offset for generating an additional card
+            Integer cardsInSlot = cardSlot.getChildren().size();
+            double offset = 16*cardsInSlot;
+            cardSlot.getChildren().add(sampleCard);
+            sampleCard.setLayoutX(offset); //Horizontal Card Stack offset
+        }else{
+            Integer cardsInSlot = cardSlot.getChildren().size();
+            double offset = 16*cardsInSlot;
+            cardSlot.getChildren().add(sampleCard);
+            sampleCard.setLayoutY(offset); //Vertical Card stack offset
+        }
+
+        FadeTransition ft = new FadeTransition(Duration.millis(1000), sampleCard);
+        ft.setFromValue(0.1);
+        ft.setToValue(1.0);
+        ft.setCycleCount(1); //Timeline.INDEFINITE
+        ft.setAutoReverse(true);
+        ft.play();
+    }
     //Builds a list of all the 3rd card slots
     List<AnchorPane> npcHitSlotList = new ArrayList<AnchorPane>();
     public void buildHitSlotList(Integer npcListSize){

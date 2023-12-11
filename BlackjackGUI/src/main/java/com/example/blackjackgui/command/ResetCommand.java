@@ -11,8 +11,9 @@ public class ResetCommand extends Command{
     }
     @Override
     public boolean execute() {
-//        target.checkEndCondition();
-//        controller.clearCards(int playerMoney);
+        if (!target.checkEndCondition())
+            throw new RuntimeException("Model reset failed");
+            controller.clearCards(target.user.getPlayerMoney());
         return false;
     }
 }

@@ -38,6 +38,38 @@ public class Dealer {
         }
     }
 
+    public boolean checkEndCondition(){
+        int dealerTotal = npcList.get(npcList.size() - 1).getTotal();
+        int userTotal = user.getTotal();
+
+        if(userTotal >=  21) {
+            // dealer wins, player loses bet, nothing else happens
+            user.setCurrentBet(0);
+        }
+        // if dealer reveals higher hand he wins
+        else if(dealerTotal > user.getTotal()) {
+            // dealer wins, player loses bet, nothing else happens
+            user.setCurrentBet(0);
+        }
+        else if (dealerTotal < user.getTotal()){
+            // player wins
+            playerWin();
+        }
+        else{ // same value, make no money
+            draw();
+        }
+
+        // deck and hands are reset
+        mainDeck.shuffle();
+        user.resetHand();
+        for(Player npc : npcList){
+            npc.resetHand();
+        }
+
+        return true;
+    }
+
+
     public boolean userHit(){
         if(user.getTotal() < 21) {
             user.drawCard(mainDeck); // player hits
@@ -49,44 +81,19 @@ public class Dealer {
     }
 
     // called when the player is done betting
-    //todo fix after we update hit deal
     public boolean stand(){
-        if(user.getTotal() > 21)
-            return false; // bad state, should have busted
-
-        if(npcList.get(npcList.size() - 1).getTotal() >= 21){
-            // player wins, dealer busts
-            playerWin();
-        }
-
-        // if dealer reveals higher hand he wins
-        if(npcList.get(npcList.size() - 1).getTotal() > user.getTotal()) {
-            // dealer wins
-            dealerWin();
-        }
-        else if (npcList.get(npcList.size() - 1).getTotal() < user.getTotal()){
-            // player wins
-            playerWin();
-        }
-
-        // deck and hands are reset
-        mainDeck.shuffle();
-        user.resetHand();
-        for(Player npc : npcList){
-            npc.resetHand();
-        }
-        return true;
+        return user.getTotal() <= 21; // bad state, should have busted
     }
 
     // case where the player wins
     private void playerWin(){
-        user.setPlayerMoney((int)(0.5 * user.getCurrentBet()) + user.getPlayerMoney());
+        user.setPlayerMoney((int)(2 * user.getCurrentBet()) + user.getPlayerMoney());
     }
 
-    private void dealerWin(){
-        user.setPlayerMoney((int)(user.getPlayerMoney() - user.getCurrentBet()));
-    }
 
+    private void draw(){
+        user.setPlayerMoney((int)(user.getCurrentBet()) + user.getPlayerMoney());
+    }
 
 
     public boolean bet(int betAmount){

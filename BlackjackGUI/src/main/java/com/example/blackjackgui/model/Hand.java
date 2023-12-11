@@ -53,6 +53,14 @@ public class Hand {
         return total;
     }
 
+    public boolean hasAce(){
+        for(Card card : cards) {
+            if(card.getRank() == 1)
+                return true;
+        }
+        return false;
+    }
+
     public int getSize(){
         return cards.size();
     }

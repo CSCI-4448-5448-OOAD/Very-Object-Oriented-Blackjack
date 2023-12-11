@@ -3,10 +3,13 @@ package com.example.blackjackgui.model;
 public class Player {
 
     private Hand playerHand;
-    private boolean stand;
+    private NPCBehavior hitBehavior;
 
-    public Player(){
-        stand = false;
+    public Player(String difficulty){
+        if(difficulty.equals("Easy"))
+            hitBehavior = new EasyNPCBehavior();
+        else
+            hitBehavior = new NormalNPCBehavior();
         playerHand = new Hand();
     }
 
@@ -22,17 +25,14 @@ public class Player {
      *
      * @param dealerHandValue value of the dealers hand
      */
-    public void makeDecision(int dealerHandValue){
-        int playerHandValue = playerHand.getTotal();
-
-        // implement chart, if hitting, draw card
+    public boolean makeDecision(Hand dealerHand){
+        return hitBehavior.makeHitDecision(dealerHand,this.playerHand);
     }
 
     public Card drawCard(Deck deck){
         Card tmp = deck.pop();
         playerHand.addCard(tmp);
         return tmp;
-        //going to circumvent this in hand.java instead.
     }
     public int getTotal(){
         return getHand().getTotal();

@@ -23,9 +23,9 @@ public class Dealer {
 //        this.dealerHand = new Hand();
         // create a list of players
         for(int i = 0; i < numNPCs; i++){
-            this.npcList.add(new Player());
+            this.npcList.add(new Player(npcDifficulty));
         }
-        this.npcList.add(new Player()); //THIS IS WHERE DEALER HAND IS GOING
+        this.npcList.add(new Player("Dealer")); //THIS IS WHERE DEALER HAND IS GOING
     }
     // initial deal, gives each player, including npcs, two cards
     public void deal() {//deals the first two cards to the player
@@ -138,7 +138,8 @@ public class Dealer {
         int startingVal = curNPC.getTotal();
         //check if dealer//
         //curNPC.makeDecision();
-        while(curNPC.getTotal() < 21) {
+        Player dealer = npcList.get(npcList.size() - 1);
+        while(curNPC.makeDecision(dealer.getHand())){
             //TODO MAKE A CALCULATION FUNCTION curNPC.makeDecusion(dealerHand);
             // for npc's check if curNPC is the dealer.[list.size()-1] and do different calculation for hit
             Card tmp = this.mainDeck.pop();

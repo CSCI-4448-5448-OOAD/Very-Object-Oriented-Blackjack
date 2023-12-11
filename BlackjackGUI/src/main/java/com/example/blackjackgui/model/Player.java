@@ -8,8 +8,13 @@ public class Player {
     public Player(String difficulty){
         if(difficulty.equals("Easy"))
             hitBehavior = new EasyNPCBehavior();
+
+        else if(difficulty.equals("Dealer"))
+            hitBehavior = new NPCDealerBehavior();
+
         else
             hitBehavior = new NormalNPCBehavior();
+
         playerHand = new Hand();
     }
 

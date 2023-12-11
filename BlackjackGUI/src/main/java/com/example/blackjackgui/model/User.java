@@ -10,7 +10,7 @@ public class User extends Player{
     PlayerAction actionType;
 
     private User(){
-        super();
+        super("None");
         this.playerMoney = 0;
         this.playerName = "None";
         this.currentBet = 0;

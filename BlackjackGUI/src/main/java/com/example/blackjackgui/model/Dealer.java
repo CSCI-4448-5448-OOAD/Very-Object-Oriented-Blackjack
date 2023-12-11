@@ -134,4 +134,20 @@ public class Dealer {
     public void saveAndExit(){
         throw new UnsupportedOperationException("TODO");
     }
+    public boolean npcHit(Player curNPC){
+        int startingVal = curNPC.getTotal();
+        //check if dealer//
+        //curNPC.makeDecision();
+        while(curNPC.getTotal() < 21) {
+            //TODO MAKE A CALCULATION FUNCTION
+            // for npc's check if curNPC is the dealer.[list.size()-1] and do different calculation for hit
+            Card tmp = this.mainDeck.pop();
+            curNPC.getHand().addCard(tmp);
+            //if curHand is dealer. if target.hand == curHand
+        }
+        if(curNPC.getTotal() > startingVal){ //if We did HIT
+            return true;
+        }
+        return false; //NPC STAY
+    }
 }

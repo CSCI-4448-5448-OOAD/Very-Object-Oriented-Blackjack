@@ -26,17 +26,31 @@ public class Hand {
      */
     public int getTotal(){
         int total = 0;
+        int numAces = 0;
         for(Card currentCard : cards){
-            total += currentCard.getRank();
-        }
-        return total;
-    }
 
-    /**
-     * @return String of all possible hand combinations
-     */
-    public String getTotalString(){
-        return "";
+            int rank = currentCard.getRank();
+
+            if(rank == 1){// aces
+                numAces++;
+                total += 11;
+            }
+
+            else if(rank <= 10) {// number cards
+                total += rank;
+            }
+
+            else{// face cards
+                total += 10;
+            }
+
+            while(numAces > 0 && total > 21){
+                total -= 10;
+                numAces--;
+            }
+        }
+
+        return total;
     }
 
     public int getSize(){

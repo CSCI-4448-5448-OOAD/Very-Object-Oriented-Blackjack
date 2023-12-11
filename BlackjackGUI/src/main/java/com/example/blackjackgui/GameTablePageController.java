@@ -347,6 +347,8 @@ public class GameTablePageController implements Initializable{
                         Platform.runLater(() -> {
                             try {
                                 //For each card in the in curHand
+                                //todo update dealer deal 2nd card here if hit.
+
                                 dealSingleCard(curNPC.getHand().getCard(curCard.intValue()).getCardString(), npcHitSlotList.get(curNPCHitSlot.intValue()));
                                 curCard.getAndIncrement();
 
@@ -363,6 +365,7 @@ public class GameTablePageController implements Initializable{
                     }
                 } else{
                     //NPC Stayed
+                    //todo thread for updating dealer 2nd card if stay
                 }
                 curNPCHitSlot.getAndIncrement(); //iterate to the next hitSlot for the next NPC
             }
@@ -377,6 +380,22 @@ public class GameTablePageController implements Initializable{
     /**
      * TODO Stay button handler
      */
+
+    //TODO RESET BUTTON
+    public void resetAndPay(ActionEvent event) throws InterruptedException{
+        currentCommand = new ResetCommand(dealer, this);
+        currentCommand.execute();
+    }
+
+    public void clearCards(int playerMoney){
+        for(AnchorPane curPane: StartingCardSlotList){
+            curPane.getChildren().clear();
+        }
+        for(AnchorPane curPane2: npcHitSlotList){
+            curPane2.getChildren().clear();
+        }
+        currentBalanceLabel.setText(Integer.toString(playerMoney));
+    }
 
 
 

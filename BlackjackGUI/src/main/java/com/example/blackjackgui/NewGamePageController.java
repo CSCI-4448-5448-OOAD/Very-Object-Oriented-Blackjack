@@ -47,6 +47,7 @@ public class NewGamePageController implements Initializable{
             alertLabel.setText("ERROR: Complete your Deck# and NPC# selections.");
         }else{
             String gamblerName = playerNameTextField.getText();
+            String npcDifficulty = npcDifficultyBox.getSelectionModel().getSelectedItem();
             try { //Error handling for textfields
                 startingBalance = Integer.parseInt(currentBalanceTextField.getText());
                 minBet = Integer.parseInt(minBetTextField.getText());
@@ -57,9 +58,12 @@ public class NewGamePageController implements Initializable{
 
                 } else if (gamblerName.isEmpty()) { //Prevent null usernames
                     alertLabel.setText("ERROR: Enter a name please.");
-                } else{
+                } else if(npcDifficulty == null){ //Select an npc difficulty
+                    alertLabel.setText("ERROR: Select a difficulty.");
+                }
+                else{
                     //LOAD THE GAME TABLE PAGE
-                    LoadGameTable(startingBalance, gamblerName, minBet, deckNumber, npcNumber,event);
+                    LoadGameTable(startingBalance, gamblerName, minBet, deckNumber, npcNumber,event, npcDifficulty);
                 }
             }
             catch (NumberFormatException e){
@@ -72,7 +76,7 @@ public class NewGamePageController implements Initializable{
     }
 
     //Helper Function for loading GameTablePage
-    public void LoadGameTable(int startingBalance, String gamblerName, int minBet, int deckNumber, int npcNumber, ActionEvent event) throws IOException {
+    public void LoadGameTable(int startingBalance, String gamblerName, int minBet, int deckNumber, int npcNumber, ActionEvent event, String npcDiff) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameTablePage.fxml"));
         root = loader.load();
         //Instance of game page controller
@@ -84,7 +88,7 @@ public class NewGamePageController implements Initializable{
         gameTableCon.displayDeckNumber(deckNumber);
         gameTableCon.displayNPCs(npcNumber);
         gameTableCon.enableStartingButtons();
-        gameTableCon.loadDealer(deckNumber, minBet, npcNumber, startingBalance, gamblerName);
+        gameTableCon.loadDealer(deckNumber, minBet, npcNumber, startingBalance, gamblerName, npcDiff);
         gameTableCon.buildHitSlotList(npcNumber);
         gameTableCon.loadHandList(npcNumber);//loads player hands and labels
 
@@ -111,9 +115,13 @@ public class NewGamePageController implements Initializable{
     @FXML
     private ChoiceBox<Integer> npcNumberChoice;
     private Integer[] npcOptions = {0,1, 2, 3, 4}; //Up to 4 possible NPCs at the table
+    @FXML
+    private ChoiceBox<String> npcDifficultyBox;
+    private String[] npcDifficulty = {"Easy", "Standard"};
     @Override //Populates the Choice box for the # of decks the player wants
     public void initialize(URL url, ResourceBundle resourceBundle) {
         deckNumberChoice.getItems().addAll(deckOptions);
         npcNumberChoice.getItems().addAll(npcOptions);
+        npcDifficultyBox.getItems().addAll(npcDifficulty);
     }
 }

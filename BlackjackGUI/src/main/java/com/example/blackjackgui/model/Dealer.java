@@ -6,15 +6,15 @@ import java.util.List;
 public class Dealer {
     public Deck mainDeck;
 //    public Hand dealerHand;
-
+    public String npcDifficulty;
     public User user;
     public List<Player> npcList = new ArrayList<>();
 
-    public Dealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName){
+    public Dealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName, String npcDifficulty){
         // initialize deck, user, and dealer hand.
         this.mainDeck = new Deck(numDecks);
         this.user = User.getInstance(); // get user instance
-
+        this.npcDifficulty = npcDifficulty;
         // set user attributes
         user.setPlayerMoney(startingAmount);
         user.setPlayerName(playerName);
@@ -139,7 +139,7 @@ public class Dealer {
         //check if dealer//
         //curNPC.makeDecision();
         while(curNPC.getTotal() < 21) {
-            //TODO MAKE A CALCULATION FUNCTION
+            //TODO MAKE A CALCULATION FUNCTION curNPC.makeDecusion(dealerHand);
             // for npc's check if curNPC is the dealer.[list.size()-1] and do different calculation for hit
             Card tmp = this.mainDeck.pop();
             curNPC.getHand().addCard(tmp);

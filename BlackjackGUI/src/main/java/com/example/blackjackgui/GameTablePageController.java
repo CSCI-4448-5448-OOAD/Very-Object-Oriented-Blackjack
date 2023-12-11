@@ -41,8 +41,8 @@ public class GameTablePageController implements Initializable{
     }
     //TODO need to load a dealer instead
 
-    public void loadDealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName){
-        this.dealer = new Dealer(numDecks, minBet, numNPCs, startingAmount, playerName);
+    public void loadDealer(int numDecks, int minBet, int numNPCs, int startingAmount, String playerName, String npcDiff){
+        this.dealer = new Dealer(numDecks, minBet, numNPCs, startingAmount, playerName, npcDiff);
         cardsRemaining.setText(Integer.toString(dealer.mainDeck.getCardStack().size()) + " - Cards Remaining");
     }
 

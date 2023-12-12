@@ -7,7 +7,6 @@ public class User extends Player{
     private int playerMoney;
     private int minBet;
     private int currentBet;
-    PlayerAction actionType;
 
     private User(){
         super("None");
@@ -56,11 +55,7 @@ public class User extends Player{
     public void setPlayerMoney(int playerMoney) {
         this.playerMoney = playerMoney;
     }
-
-    public void setActionType(PlayerAction actionType) {
-        this.actionType = actionType;
-    }
-
+    
     public boolean bet(int bet){
         if(bet >= minBet && bet <= playerMoney){ //if money is in bounds
             playerMoney = playerMoney - bet;

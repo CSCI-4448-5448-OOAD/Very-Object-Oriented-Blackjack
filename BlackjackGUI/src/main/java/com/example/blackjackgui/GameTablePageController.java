@@ -431,6 +431,8 @@ public class GameTablePageController implements Initializable{
             curPane2.getChildren().clear();
         }
         currentBalanceLabel.setText(Integer.toString(playerMoney));
+
+        updateHandLabels();
     }
 
 

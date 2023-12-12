@@ -13,7 +13,8 @@ public class ResetCommand extends Command{
     public boolean execute() {
         if (!target.checkEndCondition())
             throw new RuntimeException("Model reset failed");
-            controller.clearCards(target.user.getPlayerMoney());
-        return false;
+
+        controller.clearCards(target.user.getPlayerMoney());
+        return true;
     }
 }

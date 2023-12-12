@@ -5,7 +5,10 @@ Team Members:
 1. Carmen Michael Yon III
 2. Damon Leaf
 
-Java Version: 
+Java Version: 15.0.2
+JavaFX Version: 17.0.6
+
+Run GameDriver.java for GUI to run.
 
 Additional Comments:
 

@@ -89,6 +89,7 @@ public class GameTablePageController implements Initializable{
         stayButton.setDisable(true);//disabled
         resetButton.setDisable(true);//disabled
 
+
     }
     public void enablePlayButtons(){
         minBetButton.setDisable(true);//disabled
@@ -321,7 +322,9 @@ public class GameTablePageController implements Initializable{
                         //Card newestCard = dealer.user.getHand().getCard(-1);
                         //gets most recent card
                         dealSingleCard(dealer.user.getHand().getLastCard().getCardString(),p1CardSlot3);
-                        updateHandLabels();
+//                        updateSingleHandLabel(HandLabelList.get(handLabelIDX.get()),Integer.toString(curHand.getTotal()));
+
+                        updateHandLabels(0);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -371,7 +374,7 @@ public class GameTablePageController implements Initializable{
 //                                updateSingleHandLabel(HandLabelList.get(handLabelIDX.get()),Integer.toString(curHand.getTotal()));
                                 if(curNPC.equals(dealer.npcList.get(dealer.npcList.size()-1))){
                                     //if we are on the dealer and last card
-                                    updateHandLabels();
+                                    updateHandLabels(1);
                                 }
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
@@ -393,7 +396,7 @@ public class GameTablePageController implements Initializable{
                             //if we are on the dealer print dealer face down card
                             DealerCardSlot2.getChildren().clear();
                             revealDealerCard(curNPC.getHand().getCard(1).getCardString(), DealerCardSlot2);
-                            updateHandLabels();
+                            updateHandLabels(1);
                         }
                     });
                     try {
@@ -421,6 +424,7 @@ public class GameTablePageController implements Initializable{
     public void resetAndPay(ActionEvent event) throws InterruptedException{
         currentCommand = new ResetCommand(dealer, this);
         currentCommand.execute();
+        enableStartingButtons();
     }
 
     public void clearCards(int playerMoney){
@@ -430,9 +434,11 @@ public class GameTablePageController implements Initializable{
         for(AnchorPane curPane2: npcHitSlotList){
             curPane2.getChildren().clear();
         }
+        p1CardSlot3.getChildren().clear();
         currentBalanceLabel.setText(Integer.toString(playerMoney));
 
-        updateHandLabels();
+        updateHandLabels(1);
+        DealerHandLabel.setText("");
     }
 
 
@@ -646,17 +652,31 @@ public class GameTablePageController implements Initializable{
         }//load npcHandLabels
 ;
     }
-    public void updateHandLabels(){
+    public void updateHandLabels(int includeDealer){
         //loop through user, npc list, and dealer
-        int curNPC = 0;
-        p1HandLabel.setText(Integer.toString(dealer.user.getHand().getTotal())) ;
-        for(int i=0; i<HandLabelList.size(); i++){
-            if(i > 0){ // updates only the npc & dealer labels
-                //updates when i between 1 and idx of last element
-                HandLabelList.get(i).setText(Integer.toString(dealer.npcList.get(curNPC).getHand().getTotal()));
-                curNPC++;
-            }else{
+        if(includeDealer == 0){ //exclude dealer
+            int curNPC = 0;
+            p1HandLabel.setText(Integer.toString(dealer.user.getHand().getTotal())) ;
+            for(int i=0; i<HandLabelList.size()-1; i++){
+                if(i > 0){ // updates only the npc & dealer labels
+                    //updates when i between 1 and idx of last element
+                    HandLabelList.get(i).setText(Integer.toString(dealer.npcList.get(curNPC).getHand().getTotal()));
+                    curNPC++;
+                }else{
 
+                }
+            }
+        } else{ //include dealer
+            int curNPC = 0;
+            p1HandLabel.setText(Integer.toString(dealer.user.getHand().getTotal())) ;
+            for(int i=0; i<HandLabelList.size(); i++){
+                if(i > 0){ // updates only the npc & dealer labels
+                    //updates when i between 1 and idx of last element
+                    HandLabelList.get(i).setText(Integer.toString(dealer.npcList.get(curNPC).getHand().getTotal()));
+                    curNPC++;
+                }else{
+
+                }
             }
         }
 //        DealerHandLabel.setText(Integer.toString(dealer.dealerHand.getTotal()));

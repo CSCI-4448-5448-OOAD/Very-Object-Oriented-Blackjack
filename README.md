@@ -12,5 +12,4 @@ JavaFX Version: 17.0.6
 
 Run GameDriver.java for GUI to run.
 
-Additional Comments:
-
+Video Link: https://drive.google.com/file/d/1Szjuan3ZfCVxAxuKpaqkxH6YvzuyIRtm/view?usp=drive_link
